@@ -1,0 +1,46 @@
+				*** POO ***
+
+
+PASOS A SEGUIR PARA ENFRENTAR UN PROBLEMA EN POO
+
+- Plantear el escenario descriptivamente (mayor detalle, mayor facilidad).
+- Ubicar los elementos que se consideren mas importantes (Los que interactuen) Ya que seran los "Objetos" del programa, suelen ser sustantivos en la descripcion.
+- Considerar los elementos de cierta complejidad, Redefinirlos en agrupaciones de objetos mas pequeños.
+- Agrupar los objetos segun tipos, ubicar cual tiene propiedades o comportamientos identicos.
+- Identificar y enumerar las caracteristicas de objetos de cada clase.
+- Establecer las relaciones que hay entre los objetos de diferentes clases a partir del papel que interpretan en el problema general (mapa de objetos).
+- Por cada clase, especificar formalmente sus atributos y operaciones.
+
+
+
+			---  ARRAYS (METODOS DE ACCESO Y PARAMETROS DE POSICIONES) ---
+
+
+	Debido a que la natuarela de un vector definido como atributo ha de actualizarse y recorrerse segun parametros(posiion), la definicion de los getters y setters son distintas a los demas parametros:
+
+	ejm: Definicion de un atributo Array y declaracion de posicion inicial como parametro:
+
+
+	- private Mecanic mecanics[] = new Mecanic [15];  // ATRIBUTO DE LA CLASE
+	- private int numMecanics = 0; // DECLARACION DE LA PRIMERA POSICION DEL ARRAY DEFINIDO COMO ATRIBUTO
+
+
+			--- METODOS GET AND SET DE ATRIBUTOS DE TIPO ARRAY ---
+
+	Ejm:
+	
+	- public void setMecanics(Mecanics [] mecanics) { // EL PARAMETRO A RECIBIR EN EL SET (QUE SERA VOID) SERA EL ARRAY
+ 		this.mecanics = mecanics;
+	}
+
+	- public Mecanics [] mecanics() {  // GETTER DEL ARRAY
+		return mecanics;
+	}
+
+
+
+ 
+
+	
+
+- 
