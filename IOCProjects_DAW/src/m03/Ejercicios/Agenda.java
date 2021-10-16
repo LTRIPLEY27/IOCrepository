@@ -18,9 +18,10 @@ public class Agenda {
         
         int [] array = {3,4,10,8,7};
         int aux = 0;
+             
         for(int i = 0; i < array.length; i++) {
             for(int j = (i + 1); j < array.length; j++) { // el valor de j al estar contenido en i se ira incrementando y con ello la posicion
-                if(array[i] > array[j]) { // si la posicion original es mayor a la siguiente
+                if(array[i] < array[j]) { // si la posicion original es mayor a la siguiente
                 aux = array[i]; // guarda posicion original
                 array[i] = array[j]; // posicion original adquiere el valor de posicion siguiente
                 array[j] = aux; // posicion siguiente adquiere el valor mayor, AL IR ITERANDO, LOS VALORES MAYORES SE CORRERAN A ULTIMAS INSTANCIAS Y DE ESA MANERA SE REORDENARA
@@ -30,8 +31,10 @@ public class Agenda {
         }
         
         for(int i = 0; i < array.length; i++) {
-            System.out.println(array[i]);
-        }
+            System.out.print(array[i] + " -- ");
+        } 
     }
-    
+
+
+
 }
