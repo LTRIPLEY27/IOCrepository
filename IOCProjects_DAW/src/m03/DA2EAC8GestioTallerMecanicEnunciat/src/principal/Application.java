@@ -1,19 +1,18 @@
 package principal;
 
-import areesTaller.Client;
 import java.util.Scanner;
 
 /**
  *
- * @author Maria Isabel Calzadilla
+ * @author Isabel Calzadilla
  */
 public class Application {
+
+    private final static Scanner DADES = new Scanner(System.in);
 
     private static Taller[] tallers = new Taller[10];
     private static int pTallers = 0; //Priemra posició buida del vector tallers
     private static Taller tallerActual = null;
-    
-    public static final Scanner DADES  = new Scanner(System.in);
 
     public static void main(String[] args) {
         menuPrincipal();
@@ -26,10 +25,8 @@ public class Application {
             System.out.println("\nSelecciona una opció");
             System.out.println("\n0. Sortir");
             System.out.println("\n1. Gestió de tallers");
-            System.out.println("\n2. Gestió de clients o clientes");
-            System.out.println("\n3. Gestió de mecànics o mecàniques");
-            System.out.println("\n4. Gestió de recanvis");
-            System.out.println("\n5. Gestió de reparacions");
+            System.out.println("\n2. Gestió de components");
+            System.out.println("\n3. Gestió de reparacions");
             opcio = DADES.nextInt();
 
             switch (opcio) {
@@ -40,26 +37,12 @@ public class Application {
                     break;
                 case 2:
                     if (tallerActual != null) {
-                        menuClients();
+                        menuComponents();
                     } else {
                         System.out.println("\nPrimer s'ha de seleccionar el taller al menú Gestió de tallers");
                     }
                     break;
                 case 3:
-                    if (tallerActual != null) {
-                        menuMecanics();
-                    } else {
-                        System.out.println("\nPrimer s'ha de seleccionar el taller al menú Gestió de tallers");
-                    }
-                    break;
-                case 4:
-                    if (tallerActual != null) {
-                        menuRecanvis();
-                    } else {
-                        System.out.println("\nPrimer s'ha de seleccionar el taller al menú Gestió de tallers");
-                    }
-                    break;
-                case 5:
                     if (tallerActual != null) {
                         menuReparacions();
                     } else {
@@ -103,14 +86,14 @@ public class Application {
                 case 3:
                     indexSel = selectTaller();
                     if (indexSel >= 0) {
-                        tallers[indexSel].updateTaller();
+                        tallers[indexSel].updateComponent();
                     } else {
                         System.out.println("\nNo existeix aquest taller");
                     }
                     break;
                 case 4:
                     for (int i = 0; i < pTallers; i++) {
-                        tallers[i].showTaller();
+                        tallers[i].showComponent();
                     }
                     break;
                 default:
@@ -137,58 +120,132 @@ public class Application {
      "S'ha de seleccionar una opció correcta del menú."
      - definiu una variable opcio de tipus enter
      */
-    public static void menuClients() {
-        
-        int opcion;
-        int client = 0;
-        int indexClient = -1;
+    
+    
+    public static void menuComponents() {
+        int opcio = 0;
+        int client = -1;
         String nif;
-        Client [] clientes = new Client[10];
-        
         do {
-            System.out.println("Seleccione una opcion del menu");
-            System.out.println("\n 0. para Salir");
-            System.out.println("\n 1. para Alta");
-            System.out.println("\n 2. para Modificar");
-            System.out.println("\n 3. para ver Clientes registrados");
-            opcion = DADES.nextInt();
-            
-            switch(opcion) {
-                case 0 :
+            System.out.println("\nSelecciona una opció");
+            System.out.println("\n0. Sortir");
+            System.out.println("\n1. Clientes");
+            System.out.println("\n2. Mecanicos");
+            System.out.println("\n3. Recambios");
+            opcio = DADES.nextInt();
+            switch (opcio) {
+                case 0:
                     break;
-                case 1 :
-                    clientes[client] = Client.addClient();
-                    client++;
-                    //tallers[tallers[pTallers].addClient()] = Client.addClient();
-                    System.out.println("Cliente dado de alta");
+                case 1:
+                    do {
+                         System.out.println("\nSelecciona una opció");
+                         System.out.println("\n 0. Sortir");
+                         System.out.println("\n 1. para Alta");
+                         System.out.println("\n 2. para Modificar");
+                         System.out.println("\n 3. para ver Clientes registrados");
+                         opcio = DADES.nextInt();
+                         
+                         switch(opcio) {
+                            case 0 :
+                                break;
+                            case 1 :
+                                tallerActual.addClient();
+                                pTallers++;
+                                System.out.println("Cliente dado de alta");
+                                break;
+                            case 2 :
+                                System.out.println("Indique su NIF");
+                                nif = DADES.next();
+                                client = tallerActual.selectComponent(1, nif);
+                                if(client >= 0) { // RECIBE RESPUESTA DEL METODO "SELECT CLIENT"
+                                    tallerActual.getComponents()[client].updateComponent(); // UBICA AL CLIENT CON "GETCLIENTS" [INDICE DESDE 0] Y ACTUALIZA AL ENCONTRADO
+                                } else {
+                                    System.out.println("Cliente no encontrado");
+                                }
+                                break;
+                            case 3 :
+                                for(int i = 0; i < tallerActual.getpComponents(); i++) {  // UBICA LA LONGITUD DEL ARRAY "CLIENTS" DE TALLER CON EL INDICE DE PCLIENTS
+                                    tallerActual.getComponents()[i].showComponent();
+                                    }
+                                break;
+                            default:
+                                System.out.println("debe de seleccionar una de las opciones del menu");
+                                break;
+                
+                            }
+                        } while(opcio != 0);
                     break;
-                case 2 :
-                    System.out.println("Indique su NIF");
-                    nif = DADES.next();
-                    indexClient = tallerActual.selectClient(nif);
-                    
-                    for(int i = 0; i < client; i++) {
-                        if(indexClient >= 0) {
-                        clientes[client].showClient();
-                        clientes[client].updateClient();
-                    }
-                    
-                    }
-                    break;
-                case 3 :
-                    String aux;
-                    for(int i = 0; i < client; i++) {
-                        clientes[i].showClient();
-                        System.out.println(clientes[i]);
+                case 2:
+
+                    do {
+                        System.out.println("\nSelecciona una opció");
+                        System.out.println("\n0. Sortir");
+                        System.out.println("\n1. Alta");
+                        System.out.println("\n2. Modificar");
+                        System.out.println("\n3. Llista de mecànics i mecàniques");
+                        opcio = DADES.nextInt();
+                        switch (opcio) {
+                            case 0:
+                                break;
+                            case 1:
+                                tallerActual.addMecanic();
+                                break;
+                            case 2:
+                                int indexSel = tallerActual.selectComponent(2,null);
+                                if (indexSel >= 0) {
+                                    tallerActual.getComponents()[indexSel].updateComponent();
+                                } else {
+                                    System.out.println("\nNo existeix aquest mecànic o mecànica");
+                                }
+                                break;
+                            case 3:
+                                for (int i = 0; i < tallerActual.getpComponents(); i++) {
+                                    tallerActual.getComponents()[i].showComponent();
+                                }
+                                break;
+                            default:
+                                System.out.println("\nS'ha de seleccionar una opció correcta del menú.");
+                                break;
                         }
+                    } while (opcio != 0);
+                case 3:
+                   do {
+                       System.out.println("\nSelecciona una opció");
+                       System.out.println("\n0. Sortir");
+                       System.out.println("\n1. Alta");
+                       System.out.println("\n2. Modificar");
+                       System.out.println("\n3. Llista de recanvis");
+                       opcio = DADES.nextInt();
+                       switch (opcio) {
+                           case 0:
+                               break;
+                           case 1:
+                               tallerActual.addRecanvi();
+                               break;
+                           case 2:
+                               int indexSel = tallerActual.selectComponent(3, null);
+                               if (indexSel >= 0) {
+                                   tallerActual.getComponents()[indexSel].updateComponent();
+                               } else {
+                                   System.out.println("\nNo existeix aquest recanvi");
+                               }
+                               break;
+                           case 3:
+                               for (int i = 0; i < tallerActual.getpComponents(); i++) {
+                                   tallerActual.getComponents()[i].showComponent();
+                               }
+                               break;
+                           default:
+                               System.out.println("\nS'ha de seleccionar una opció correcta del menú.");
+                               break;
+            }
+        } while (opcio != 0);
                     break;
                 default:
-                    System.out.println("debe de seleccionar una de las opciones del menu");
+                    System.out.println("\nS'ha de seleccionar una opció correcta del menú.");
                     break;
-                
             }
-        } while(opcion != 0);
-        
+        } while (opcio != 0);
     }
 
     /*
@@ -208,9 +265,7 @@ public class Application {
      "S'ha de seleccionar una opció correcta del menú."
      - definiu una variable opcio de tipus enter
      */
-    public static void menuMecanics() {
-        
-    }
+    
 
     /*
      TODO Heu de desenvolupar el menuRecanvis amb les opcions que podeu veure.
@@ -229,9 +284,7 @@ public class Application {
      "S'ha de seleccionar una opció correcta del menú."
      - definiu una variable opcio de tipus enter
      */
-    public static void menuRecanvis() {
-        
-    }
+    
 
     /*
      TODO Heu de desenvolupar el menuReparacions amb les opcions que podeu veure.
@@ -255,7 +308,55 @@ public class Application {
      - definiu una variable opcio de tipus enter
      */
     public static void menuReparacions() {
-       
+        int opcio = 0;
+
+        do {
+            System.out.println("\nSelecciona una opció");
+            System.out.println("\n0. Sortir");
+            System.out.println("\n1. Alta");
+            System.out.println("\n2. Modificar");
+            System.out.println("\n3. Assignar client o clienta");
+            System.out.println("\n4. Assignar mecànic o mecànica");
+            System.out.println("\n5. Assignar recanvi");
+            System.out.println("\n6. Calcular preu");
+            System.out.println("\n7. Llista de reparacions");
+            opcio = DADES.nextInt();
+            switch (opcio) {
+                case 0:
+                    break;
+                case 1:
+                    tallerActual.addReparacio();
+                    break;
+                case 2:
+                    int indexSel = tallerActual.selectComponent(4,null);
+                    if (indexSel >= 0) {
+                        tallerActual.getComponents()[indexSel].updateComponent();
+                    } else {
+                        System.out.println("\nNo existeix aquesta reparació");
+                    }
+                    break;
+                case 3:
+                    tallerActual.addClientReparacio();
+                    break;
+                case 4:
+                    tallerActual.addMecanicReparacio();
+                    break;
+                case 5:
+                    tallerActual.addRecanviReparacio();
+                    break;
+                case 6:
+                    tallerActual.calcularPreuReparacio();
+                    break;
+                case 7:
+                    for (int i = 0; i < tallerActual.getpComponents(); i++) {
+                        tallerActual.getComponents()[i].showComponent();
+                    };
+                    break;
+                default:
+                    System.out.println("\nS'ha de seleccionar una opció correcta del menú.");
+                    break;
+            }
+        } while (opcio != 0);
     }
 
     public static Integer selectTaller() {
@@ -270,5 +371,4 @@ public class Application {
         }
         return -1;
     }
-
 }

@@ -7,16 +7,16 @@
  */
 package principal;
 
+import java.util.Scanner;
 import areesTaller.Client;
 import areesTaller.Mecanic;
 import areesTaller.Recanvi;
-import java.util.Scanner;
 
 /**
  *
- * @author Isabel Calzadilla
+ * @author fta
  */
-public class Reparacio {
+public class Reparacio implements Component{
 
     private String codi;
     private String dataInici;
@@ -27,8 +27,7 @@ public class Reparacio {
     private int pMecanics = 0; //Priemra posició buida del vector mecanics
     private Recanvi[] recanvis = new Recanvi[20];
     private int pRecanvis = 0; //Priemra posició buida del vector recanvis
-    public static final Scanner DADES = new Scanner(System.in);
-    
+
     /*
      TODO CONSTRUCTOR
     
@@ -37,68 +36,86 @@ public class Reparacio {
      Accions:
      - Assignar als atributs corresponents els valors passats com a paràmetres
      */
+    public Reparacio(String codi, String dataInici, String dataFi) {
+        this.codi = codi;
+        this.dataInici = dataInici;
+        this.dataFi = dataFi;
+    }
 
-    
-    public Reparacio(String code, String dateBegin, String dateEnd, double price) {
-        
-        this.codi = code;
-        this.dataInici = dateBegin;
-        this.dataFi = dateEnd;
-        this.preu = price;
-        
-    } 
-    
     /*
      TODO Heu d'implementar tots els mètodes accessors possibles.
-    */
-    
-    // METODOS DE ACCESO
-    
-    public void setCodi(String code) {
-        this.codi = code;
-    }
-    
+     */
     public String getCodi() {
-        return this.codi;
+        return codi;
     }
-    
-    public void setdataInici(String dateBegin) {
-        this.dataInici = dateBegin;
+
+    public void setCodi(String codi) {
+        this.codi = codi;
     }
-    
-    public String getdataInici() {
-        return this.dataInici;
+
+    public String getDataInici() {
+        return dataInici;
     }
-    
-    public void setdataFi(String dateEnd) {
-        this.dataFi = dateEnd;
+
+    public void setDataInici(String dataInici) {
+        this.dataInici = dataInici;
     }
-    
-    public String getdataFi() {
-        return this.dataFi;
+
+    public String getDataFi() {
+        return dataFi;
     }
-    
-    public void setPreu(double price) {
-        this.preu = price;
+
+    public void setDataFi(String dataFi) {
+        this.dataFi = dataFi;
     }
-    
+
     public double getPreu() {
-        return this.preu;
+        return preu;
     }
-    
-    public void setpMecanics(int pMecanico) {
-        this.pMecanics = pMecanico;
+
+    public void setPreu(double preu) {
+        this.preu = preu;
     }
-    
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
+    }
+
+    public Mecanic[] getMecanics() {
+        return mecanics;
+    }
+
+    public void setMecanics(Mecanic[] mecanics) {
+        this.mecanics = mecanics;
+    }
+
     public int getpMecanics() {
-        return this.pMecanics;
+        return pMecanics;
     }
-    
-    public void setpRecanvis (int pRecambio) {
-        this.pRecanvis = pRecambio;
+
+    public void setpMecanics(int pMecanics) {
+        this.pMecanics = pMecanics;
     }
-   
-    
+
+    public Recanvi[] getRecanvis() {
+        return recanvis;
+    }
+
+    public void setRecanvis(Recanvi[] recanvis) {
+        this.recanvis = recanvis;
+    }
+
+    public int getpRecanvis() {
+        return pRecanvis;
+    }
+
+    public void setpRecanvis(int pRecanvis) {
+        this.pRecanvis = pRecanvis;
+    }
 
     /*
     TODO
@@ -113,30 +130,17 @@ public class Reparacio {
     Retorn: El nou recanvi creat.
      */
     public static Reparacio addReparacio() {
-   
-        Reparacio reparacion;
-        
-        String code, dateBegin, dateEnd;
-        double price;
-     
-        
-        System.out.println("Ingrese codigo: ");
-        code = DADES.nextLine();
-        
-        System.out.println("Ingrese fecha de inicio");
-        dateBegin = DADES.nextLine();
-        
-        System.out.println("Ingrese fecha de finalizacion");
-        dateEnd = DADES.nextLine();
-        
-        System.out.println("ingrese precio");
-        price = DADES.nextDouble();
-        
-        
-        reparacion = new Reparacio(code, dateBegin, dateEnd, price);
-        
-        return reparacion;
-        
+
+        String codi, dataInici, dataFi;
+
+        System.out.println("\nCodi identificador de la reparació:");
+        codi = DADES.next();
+        System.out.println("\nData d'incic de la reparació:");
+        dataInici = DADES.next();
+        System.out.println("\nData de fi de la reparació:");
+        dataFi = DADES.next();
+
+        return new Reparacio(codi, dataInici, dataFi);
     }
 
     /*
@@ -154,39 +158,19 @@ public class Reparacio {
      
     Retorn: cap
      */
-    public void updateReparacio() {
-       
-        String code, dateBegin, dateEnd;
-        double price;
-        
-        System.out.println("Ingrese codigo: ");
-        code = DADES.nextLine();
-        
-        this.codi = code;
-        System.out.println("El nuevo codigo es: " + this.codi);
-        
-        System.out.println("Ingrese fecha de inicio");
-        dateBegin = DADES.nextLine();
-        
-        this.dataInici = dateBegin;
-        System.out.println("El nueva fecha es: " + this.dataInici);
-        
-        System.out.println("Ingrese fecha de finalizacion");
-        dateEnd = DADES.nextLine();
-        
-        this.dataFi = dateEnd;
-        System.out.println("El nueva fecha final es: " + this.dataFi);
-        
-        System.out.println("ingrese precio");
-        price = DADES.nextDouble();
-        
-        this.preu = price;
-        System.out.println("El nuevo precio es: " + this.preu);
-        
-
+    @Override
+    public void updateComponent() {
+        System.out.println("\nCodi identificador de la reparació: " + codi);
+        System.out.println("\nEntra el nou codi identificador:");
+        codi = DADES.next();
+        System.out.println("\nData d'incic de la reparació: " + dataInici);
+        System.out.println("\nEntra la nova data d'inici:");
+        dataInici = DADES.next();
+        System.out.println("\nData de fi de la reparació: " + dataFi);
+        System.out.println("\nEntra la nova data de fi:");
+        dataFi = DADES.next();
     }
 
-    
     /*
      TODO
     
@@ -200,16 +184,24 @@ public class Reparacio {
     
      Retorn: cap
      */
-    public void addMecanic(Mecanic mecanic) { // PARAMETRO QUE USA LA CLASE MECANICO
+    public void addMecanic(Mecanic mecanic) {
 
-        
-        for(int i = 0; i < pMecanics; i++) {
-            if(mecanic.getNif().equals(mecanics[i].getNif())) {
-                mecanics[i] = mecanic;
-                pMecanics++;
+        boolean afegit = false;
+
+        for (int i = 0; i < pMecanics && !afegit; i++) {
+            if (mecanics[i].getNif().equals(mecanic.getNif())) {
+                afegit = true;
             }
         }
+
+        if (!afegit) {
+            mecanics[pMecanics] = mecanic;
+            pMecanics++;
+        }
+
     }
+
+    
     
     /*
      TODO
@@ -226,16 +218,21 @@ public class Reparacio {
      */
     public void addRecanvi(Recanvi recanvi) {
 
-        for(int i = 0; i < pRecanvis; i++) {
-            if(recanvi.getCodi().equals(recanvis[i].getCodi())) {
-                recanvis[i] = recanvi;
-                pRecanvis++;
+        boolean afegit = false;
+
+        for (int i = 0; i < pRecanvis && !afegit; i++) {
+            if (recanvis[i].getCodi().equals(recanvi.getCodi())) {
+                afegit = true;
             }
         }
+
+        if (!afegit) {
+            recanvis[pRecanvis] = recanvi;
+            pRecanvis++;
+        }
+
     }
-    
-    
-    
+
     /*
      TODO
     
@@ -251,41 +248,40 @@ public class Reparacio {
      Retorn: cap
      */
     public void addPreu(int totalHores) {
-        
-        double preuHoras = totalHores * 60.5;
-        
-        double preuRecanvis  = 0.0;
-        
-        for(int i = 0; i < recanvis.length; i++) {
-            preuRecanvis +=  recanvis[i].getPreu();  // SUMA DEL PRECIO DEL ARRAY RECANVIS
+
+        double preuRecanvis = 0;
+
+        for (int i = 0; i < pRecanvis; i++) {
+            preuRecanvis += recanvis[i].getPreu();
         }
-        
-        this.preu = preuRecanvis + preuHoras; // VERIFICAR EL PRECIO DEL RECANVI
-        
+
+        preu = preuRecanvis + 60.5 * totalHores;
     }
-    
-    public void showReparacio() {
+
+    @Override
+    public void showComponent() {
         System.out.println("\nLes dades de la reparació amb codi identificador " + codi + " són:");
-        
+
         System.out.println("\nData d'inici: " + dataInici);
-        
+
         System.out.println("\nData de fi: " + dataFi);
 
         System.out.println("\nPreu: " + preu);
-        
+
         if (client != null) {
             System.out.println("\nClient: ");
-            client.showClient();
+            client.showComponent();
         }
-        
+
         for (int i = 0; i < pMecanics; i++) {
-            mecanics[i].showMecanic();
+            mecanics[i].showComponent();
         }
 
         for (int i = 0; i < pRecanvis; i++) {
-            recanvis[i].showRecanvi();
+            recanvis[i].showComponent();
         }
     }
 
-}
+   
 
+}
