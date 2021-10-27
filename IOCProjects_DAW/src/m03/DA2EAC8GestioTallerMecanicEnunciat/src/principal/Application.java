@@ -4,7 +4,11 @@ import java.util.Scanner;
 
 /**
  *
+<<<<<<< HEAD
  * @author Isabel Calzadilla
+=======
+ * @author fta
+>>>>>>> origin/master
  */
 public class Application {
 
@@ -122,6 +126,23 @@ public class Application {
      */
     
     
+<<<<<<< HEAD
+=======
+    /* case 3:
+                    if (tallerActual != null) {
+                        menuMecanics();
+                    } else {
+                        System.out.println("\nPrimer s'ha de seleccionar el taller al menú Gestió de tallers");
+                    }
+                    break;
+                case 4:
+                    if (tallerActual != null) {
+                        menuRecanvis();
+                    } else {
+                        System.out.println("\nPrimer s'ha de seleccionar el taller al menú Gestió de tallers");
+                    }
+                    break;*/
+>>>>>>> origin/master
     public static void menuComponents() {
         int opcio = 0;
         int client = -1;
