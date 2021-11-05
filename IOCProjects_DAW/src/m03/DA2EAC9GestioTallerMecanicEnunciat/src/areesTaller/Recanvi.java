@@ -7,7 +7,7 @@ import principal.Component;
 
 /**
  *
- * @author fta
+ * @Isabel Calzadilla
  */
 public class Recanvi implements Component{
         

@@ -1,5 +1,6 @@
 package persistencia;
 
+import areesTaller.Recanvi;
 import java.io.File;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +16,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Text;
 import principal.GestorTallerMecanicException;
+import principal.Reparacio;
 import principal.Taller;
 
 /**
@@ -35,7 +37,11 @@ public class GestorXML implements ProveedorPersistencia {
     }
 
     public void desarTaller(String nomFitxer, Taller taller) throws GestorTallerMecanicException {
-        construeixModel(taller);
+        try {
+            construeixModel(taller);
+        } catch (ParserConfigurationException ex) {
+            Logger.getLogger(GestorXML.class.getName()).log(Level.SEVERE, null, ex);
+        }
         desarModel(nomFitxer);
     }
 
@@ -67,70 +73,91 @@ public class GestorXML implements ProveedorPersistencia {
      *
      *Retorn: cap
      */
-    public void construeixModel(Taller taller) throws GestorTallerMecanicException {
+    public void construeixModel(Taller taller) throws GestorTallerMecanicException, ParserConfigurationException {
         
         
         // CIERRE DEL BLOQUE EN UNA EXCEPCION *** LO DEMANDABA JAVA???
-        try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance(); // CREACION DE LA INSTANCIA
+   
+            DocumentBuilderFactory constructor = DocumentBuilderFactory.newInstance(); // CREACION DE LA INSTANCIA
             
-            DocumentBuilder builder = factory.newDocumentBuilder();
+            DocumentBuilder construyeDOM;
             
-            DOMImplementation implementation = builder.getDOMImplementation();// SE CREA EL DOM SOBRE EL QUE CONSTRUIRA XML
+            //DOMImplementation implementaDOM = construyeDOM.getDOMImplementation();// SE CREA EL DOM SOBRE EL QUE CONSTRUIRA XML
             
-            doc = implementation.createDocument(null, "Talleres", null);// OBJETO "DOC" EN XML, RAIZ
-            
-            doc.setXmlVersion("1.0");
-            
-            
-            Element tallers = doc.createElement("taller");
-            
-            //Element tallerHijo = doc.createTextNode(taller.); ?????
-            
-            Element cif = doc.createElement("cif"); // ELEMENTO HIJO : CIF
-            
-            Text textCif = doc.createTextNode(taller.getCif()); // TEXTO DEL ELEMENTO
-            
-            cif.appendChild(textCif); // ADJUNCION DEL TEXTO EN EL ELEMENTO, SE REPITE POR CADA ESCENARIO
-            
-            tallers.appendChild(cif); // ADJUNCION DEL ELEMENTO HIJO AL OBJETO CENTRAL "ELEMENTO PADRE" DE TALLER
-            
-            // SEGUNDO ATRIBUTO
-            
-            Element nom = doc.createElement("nombre");
-            
-            Text textNom = doc.createTextNode(taller.getNom());
-            
-            nom.appendChild(textNom);
-            
-            tallers.appendChild(nom);
-            
-            // TERCER ATRIBUTO
-            
-            Element adresa = doc.createElement("Direccion");
-            
-            Text textAdresa = doc.createTextNode(taller.getAdreca());
-            
-            adresa.appendChild(textAdresa);
-            
-            tallers.appendChild(adresa);
-            
-            
-            // CUARTO ATRIBUTO (UBICACION)
-
-
-            //Element pTallers = doc.createElement("Numero");
-            
-            //Text textpTaller = doc.createTextNode(taller.getpComponents());
-            //pTallers.appendChild(textpTallers);
-            
-            //tallers.appendChild(pTallers);
+            //doc = implementaDOM.createDocument(null, "Talleres", null);// OBJETO "DOC" EN XML, RAIZ
             
             
             
-        } catch (ParserConfigurationException ex) {
-            Logger.getLogger(GestorXML.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            
+            Element son, grandson, greatgrandson;  // ELEMENTOS QUE CREARAN LOS NODOS
+            
+            try {
+                construyeDOM = constructor.newDocumentBuilder();
+            } catch(ParserConfigurationException ex) {
+                throw new GestorTallerMecanicException("GestorXML.model"); // VERIFICA LA EXCEPCION DEL GESTOR
+            }
+            
+            doc = (Document) construyeDOM.newDocument();// ES NECESARIO CASTEAR EL DOCUMENTO
+            
+            
+            // VERIFICAR SI NO SE DEBE DE REALIZAR SOBRE EL ARRAYLIST O SOLO 1 OBJETO
+            Element root = doc.createElement("taller");
+            root.setAttribute("cif", taller.getCif());
+            root.setAttribute("nom", taller.getNom());
+            root.setAttribute("adresa", taller.getAdreca());
+            
+            doc.appendChild(root); // SE ADJUNTA EL ELEMENTO COMPLETO AL DOCUMENTO COMO 1 HIJO
+            
+            
+            
+            // RECORRE EL ARRAYLIST Y CREA UN HIJO POR CADA COMPONENT
+            for(int i = 0; i < taller.getComponents().size(); i++) {
+                
+                if(taller.getComponents().get(i) instanceof Recanvi) {
+                    
+                    son = doc.createElement("recanvi");
+                    son.setAttribute("codi", ((Recanvi)taller.getComponents().get(i)).getCodi()); // SE ACCEDE AL ATRIBUTO DEL OBJETO "RECANVI" HACIENDO USO DE COMPONENTS Y LOS MÉTODOS PROPIOS DE LA CLASE, ADEMÁS DE REFERENCIAR EN EL CAST AL OBJETO, DENTRO DEL ARRAYLIST, PARA QUE SE PUEDA UBICAR ESE ATRIBUTO
+                    son.setAttribute("nom", ((Recanvi) taller.getComponents().get(i)).getNom());  // !!!!      IMPERATIVO PRESTAR ATENCION A LOS PARÉTESIS PUES PUEDE DAR ERROR O NO LLEGAR A LOS ATRIBUTOS QUE DESEEMOS POR ESTAR MAL UBICADOS
+                    son.setAttribute("fabricant", ((Recanvi) taller.getComponents().get(i)).getFabricant());
+                    
+                 
+                    son.setAttribute("preu", String.valueOf(((Recanvi) taller.getComponents().get(i)).getPreu()));
+                    
+                    
+                    // VERIFICA SI ESTÁ O NO ASIGNADO
+                    if(((Recanvi) taller.getComponents().get(i)).isAssignat()) {
+                   son.setAttribute("assignat", "Si");
+                        
+                    } else {
+                        son.setAttribute("assignat", "No");
+                    }
+                    
+                   /////////////////////  VERIFICAR MÉTODO
+                    
+                   root.appendChild(son);
+                }else if(taller.getComponents().get(i) instanceof Reparacio){
+                    
+                    son = doc.createElement("reparacio"); // SE DEBE DE INICIALIZAR SIEMPRE LA VARIABLE PARA IR INCORPORANDO LOS ATRIBUTOS Y ELELEMENTOS
+                    son.setAttribute("codi", ((Reparacio) taller.getComponents().get(i)).getCodi());
+                    son.setAttribute("dataInici", ((Reparacio) taller.getComponents().get(i)).getDataInici());
+                    son.setAttribute("dataFi", ((Reparacio) taller.getComponents().get(i)).getDataFi());
+         
+                    son.setAttribute("preu", String.valueOf(((Reparacio) taller.getComponents().get(i)).getPreu()));
+                    
+                    
+                    // VERIFICAR SI SE DEBE DE CASTEAR EL OBJETO 
+                    son.setAttribute("client", String.valueOf(((Reparacio) taller.getComponents().get(i)).getClient())); 
+                    
+                    
+                    // VERIFICAR SI EL MAP DEBE DE ESPECIFICAR EL KEY DE CADA LISTA
+                    son.setAttribute("mecanic", String.valueOf(((Reparacio) taller.getComponents().get(i)).getMaps()));
+                    
+                    son.setAttribute("recanvi", String.valueOf(((Reparacio) taller.getComponents().get(i)).getMaps()));
+                    
+                    root.appendChild(son);
+                    
+                }
+            }
         
     }
 
