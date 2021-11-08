@@ -1,5 +1,8 @@
 package persistencia;
 
+import areesTaller.Client;
+import areesTaller.Mecanic;
+import areesTaller.Persona;
 import areesTaller.Recanvi;
 import java.io.File;
 import java.util.logging.Level;
@@ -113,7 +116,28 @@ public class GestorXML implements ProveedorPersistencia {
             // RECORRE EL ARRAYLIST Y CREA UN HIJO POR CADA COMPONENT
             for(int i = 0; i < taller.getComponents().size(); i++) {
                 
-                if(taller.getComponents().get(i) instanceof Recanvi) {
+                if(taller.getComponents().get(i) instanceof Client) {
+                    son = doc.createElement("client");
+                    son.setAttribute("nif", ((Client) taller.getComponents().get(i)).getNif());
+                    son.setAttribute("nom", ((Client) taller.getComponents().get(i)).getNom());
+                    son.setAttribute("telefono", ((Client) taller.getComponents().get(i)).getTelefon());
+                    son.setAttribute("correo", ((Client) taller.getComponents().get(i)).getCorreu());
+                    
+                    root.appendChild(son);
+                }
+                
+                else if(taller.getComponents().get(i) instanceof Mecanic) {
+                    son = doc.createElement("mecanic");
+                    son.setAttribute("nif", ((Mecanic) taller.getComponents().get(i)).getNif());
+                    son.setAttribute("nom", ((Mecanic) taller.getComponents().get(i)).getNom());
+                    son.setAttribute("telefono", ((Mecanic) taller.getComponents().get(i)).getTelefon());
+                    son.setAttribute("correo", ((Mecanic) taller.getComponents().get(i)).getCorreu());
+                    
+                    root.appendChild(son);
+                    
+                }
+                
+                else if(taller.getComponents().get(i) instanceof Recanvi) {
                     
                     son = doc.createElement("recanvi");
                     son.setAttribute("codi", ((Recanvi)taller.getComponents().get(i)).getCodi()); // SE ACCEDE AL ATRIBUTO DEL OBJETO "RECANVI" HACIENDO USO DE COMPONENTS Y LOS MÉTODOS PROPIOS DE LA CLASE, ADEMÁS DE REFERENCIAR EN EL CAST AL OBJETO, DENTRO DEL ARRAYLIST, PARA QUE SE PUEDA UBICAR ESE ATRIBUTO
@@ -135,6 +159,7 @@ public class GestorXML implements ProveedorPersistencia {
                    /////////////////////  VERIFICAR MÉTODO
                     
                    root.appendChild(son);
+                   
                 }else if(taller.getComponents().get(i) instanceof Reparacio){
                     
                     son = doc.createElement("reparacio"); // SE DEBE DE INICIALIZAR SIEMPRE LA VARIABLE PARA IR INCORPORANDO LOS ATRIBUTOS Y ELELEMENTOS
@@ -144,17 +169,47 @@ public class GestorXML implements ProveedorPersistencia {
          
                     son.setAttribute("preu", String.valueOf(((Reparacio) taller.getComponents().get(i)).getPreu()));
                     
+                    // ES IMPERATIVO HACER UN FOR QUE RECORRA LAS LISTAS CONTENIDAS DENTRO DE REPARACION PARA IR ACCEDIENDO A CADA ATRIBUTO SEGUN EL CASO (CLIENTES, MECANICS Y DEMÁS) !!!! ERROR NO COLOCAR UN ITERADOR INTERNO 
                     
-                    // VERIFICAR SI SE DEBE DE CASTEAR EL OBJETO 
-                    son.setAttribute("client", String.valueOf(((Reparacio) taller.getComponents().get(i)).getClient())); 
+                    for(int x = 0; x < ((Reparacio) taller.getComponents().get(i)).getMaps().size(); x++) {
+                        
+                        grandson = doc.createElement("cliente-Reparacion"); // HACEMOS USO DE LA VARIABLE "GRANDSON" QUE REPRESENTA AL CLIENTE CONTENIDO EN REPARACION DENTRO DEL XML
+                   
+                        grandson.setAttribute("nif", ((Reparacio) taller.getComponents().get(x)).getClient().getNif());  // ACCEDEMOS A LOS DATOS "CLIENTE" MEDIANTE EL ARRAY COMPONENTS Y LOS MÉTODOS DE LA CLASE ARRAYLIST, VERIFICAR LOS PARENTESIS
+                        grandson.setAttribute("nom", ((Reparacio) taller.getComponents().get(x)).getClient().getNom());
+                        grandson.setAttribute("telefono", ((Reparacio) taller.getComponents().get(x)).getClient().getTelefon());
+                        grandson.setAttribute("correo", ((Reparacio)taller.getComponents().get(x)).getClient().getCorreu());
+                   
+                        son.appendChild(grandson);
+                  
+                  
+                        grandson = doc.createElement("mecanic");
+                   
+                        grandson.setAttribute("nif", ((Mecanic)((Reparacio) taller.getComponents().get(x)).getMaps()).getNif());  // SE DEBEN DE PASAR 2 CLASES COMO PARÁMETROS PARA ACCEDER A LA LIST ESPECÍFICA A LA QUE REFIERE EL ATRIBUTO, ESTAR MUYYYY ATENTO A LOS PARÉNTESIS
+                        
+                        grandson.setAttribute("nom", ((Mecanic) ((Reparacio) taller.getComponents().get(x)).getMaps()).getNom()); // LOS PARÉNTESIS REFIEREN A2 TIPOS: INTERNO Y EXTERNO, INTERNO: ALBERGA A REPARACIO Y TALLER, Y CIERRA POR ENDE EN EL GET INDEX, PARA LOGRAR ACCEDER A LA LIST, EL EXTERNO SE COMPONE DE MECANIC + EL INTERNO HASTA LA "LIST" PARA ACCEDER AL ATRIBUTO DE ESE TIPO DE OBJETO DENTRO DE ESA LISTA.
+                        grandson.setAttribute("telefono", ((Mecanic) ((Reparacio) taller.getComponents().get(x)).getMaps()).getTelefon());
+                        grandson.setAttribute("correo", ((Mecanic)((Reparacio) taller.getComponents().get(x)).getMaps()).getCorreu());
+                        son.appendChild(grandson);
+                        
+                        
+                        grandson = doc.createElement("Recanvi");
+                        
+                        grandson.setAttribute("codi", ((Recanvi) ((Reparacio) taller.getComponents().get(x)).getMaps()).getCodi());
+                        grandson.setAttribute("nom", ((Recanvi) ((Reparacio) taller.getComponents().get(x)).getMaps()).getNom());
+                        grandson.setAttribute("fabricant", ((Recanvi) ((Reparacio) taller.getComponents().get(x)).getMaps()).getFabricant());
+                        grandson.setAttribute("preu", String.valueOf(((Recanvi) ((Reparacio) taller.getComponents().get(x)).getMaps()).getPreu()));
+                        grandson.setAttribute("assignat", String.valueOf(((Recanvi) ((Reparacio) taller.getComponents().get(x)).getMaps()).isAssignat()));
+                        
+                        son.appendChild(grandson);
+                        
+                   
                     
-                    
-                    // VERIFICAR SI EL MAP DEBE DE ESPECIFICAR EL KEY DE CADA LISTA
-                    son.setAttribute("mecanic", String.valueOf(((Reparacio) taller.getComponents().get(i)).getMaps()));
-                    
-                    son.setAttribute("recanvi", String.valueOf(((Reparacio) taller.getComponents().get(i)).getMaps()));
-                    
-                    root.appendChild(son);
+                   root.appendChild(son);
+                        
+                    }
+                   
+                   
                     
                 }
             }
@@ -182,6 +237,7 @@ public class GestorXML implements ProveedorPersistencia {
             doc = builder.parse(f);
         } catch (Exception ex) {
             throw new GestorTallerMecanicException("GestorXML.carrega");
+        
         }
     }
 
