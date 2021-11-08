@@ -3,6 +3,7 @@ package principal;
 import areesTaller.Client;
 import areesTaller.Mecanic;
 import areesTaller.Recanvi;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import persistencia.GestorPersistencia;
 
@@ -20,14 +21,19 @@ public class Application {
     static private String FITXER = "taller";
     static private GestorPersistencia gp = new GestorPersistencia();
 
-    public static void main(String[] args) throws GestorTallerMecanicException {
-        menuPrincipal();
+    public static void main(String[] args) {
+        try {
+            menuPrincipal();
+        } catch (GestorTallerMecanicException e) {
+            System.out.println("\n" + e.getMessage());
+        }
     }
-
+    
     private static void menuPrincipal() throws GestorTallerMecanicException {
         int opcio = 0;
 
         do {
+            try{
             System.out.println("\nSelecciona una opció");
             System.out.println("\n0. Sortir");
             System.out.println("\n1. Gestió de tallers");
@@ -75,10 +81,15 @@ public class Application {
                     System.out.println("\nS'ha de seleccionar una opció correcta del menú.");
                     break;
             }
+            } catch(InputMismatchException e) {  // OPCION NO N¿UMERICA DISPARA LA EXCEPCION 1
+                throw new GestorTallerMecanicException("1");
+            } catch(ArrayIndexOutOfBoundsException e) { // OPCION FUERA DEL INDICE DEL ARRAY
+                throw new GestorTallerMecanicException("9"); 
+            }
         } while (opcio != 0);
     }
 
-    public static void menuTallers() throws GestorTallerMecanicException {
+    public static void menuTallers() throws GestorTallerMecanicException,InputMismatchException, ArrayIndexOutOfBoundsException  { // SE DELEGAN LAS EXCEPCIONES DEL MENU PRINCIPAL EN LOS SIGUIENTES
         int opcio = 0;
 
         do {
@@ -121,10 +132,14 @@ public class Application {
                     }
                     break;
                 case 5: //Carregar taller
-                    pTallers = 0;
-                    tallers = new Taller[1]; //Per facilitar la feina, només podem carregar un taller
+                    pTallers = 0;    // editar a 1 taller
+                    
+                  
+                    tallers = new Taller[3]; //Per facilitar la feina, només podem carregar un taller
                     gp.carregarTaller("XML", FITXER);
                     tallers[pTallers] = gp.getGestor().getTaller();
+                    
+                   
                     pTallers++;
                     break;
                 case 6: //Desar taller
@@ -142,7 +157,7 @@ public class Application {
         } while (opcio != 0);
     }
     
-    public static void menuComponents(int tipus) throws GestorTallerMecanicException {
+    public static void menuComponents(int tipus) throws GestorTallerMecanicException,InputMismatchException, ArrayIndexOutOfBoundsException {
         int opcio = 0;
 
         do {
@@ -216,7 +231,7 @@ public class Application {
      "S'ha de seleccionar una opció correcta del menú."
      - definiu una variable opcio de tipus enter
      */
-    public static void menuReparacions() throws GestorTallerMecanicException {
+    public static void menuReparacions() throws GestorTallerMecanicException,InputMismatchException, ArrayIndexOutOfBoundsException {
         int opcio = 0;
 
         do {
@@ -282,4 +297,4 @@ public class Application {
         }
         return -1;
     }
-}
+} 
