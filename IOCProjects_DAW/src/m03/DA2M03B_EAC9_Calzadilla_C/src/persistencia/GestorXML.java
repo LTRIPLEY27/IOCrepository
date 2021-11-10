@@ -194,9 +194,9 @@ public class GestorXML implements ProveedorPersistencia {
                     for(String key : keys) { // RECORRE LOS VALORES DEL SET UNO A UNO Y VA RETORNANDO
                         if(key.equals("mecanics")) {
                             
-                            List <Mecanic> mecanics = (ArrayList <Mecanic>) reparacio.getMaps().get(key);
+                            List <Mecanic> mecanics = (ArrayList <Mecanic>) reparacio.getMaps().get(key); // ADJUNTAMOS LOS VALORES CONTENIDOS EN EL ARRAYLIST DE MAPS CON LA "KEY" "MECANIC" y almacenamos a un nuevo List "MECANICS"
                             
-                            for(Mecanic mecanic : mecanics) {
+                            for(Mecanic mecanic : mecanics) {//con el for retornamos cada valor contenido en ese List y lo vamos tomando según atributo y método
                                 grandson = doc.createElement("mecanic");
                    
                                 grandson.setAttribute("nif", mecanic.getNif());  // SE DEBEN DE PASAR 2 CLASES COMO PARÁMETROS PARA ACCEDER A LA LIST ESPECÍFICA A LA QUE REFIERE EL ATRIBUTO, ESTAR MUYYYY ATENTO A LOS PARÉNTESIS
