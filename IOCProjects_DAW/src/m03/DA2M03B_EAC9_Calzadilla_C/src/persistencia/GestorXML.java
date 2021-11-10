@@ -189,10 +189,10 @@ public class GestorXML implements ProveedorPersistencia {
                     }
                     
                     
-                    Set <String> keys = ((Reparacio) taller.getComponents().get(i)).getMaps().keySet();// VERIFICAR
+                    Set <String> keys = ((Reparacio) taller.getComponents().get(i)).getMaps().keySet();// AL se un Map y éste no se puede iterar, debe de hacerse un "Set" al mismo, adjuntando a una variable del tipo "Set" los elementos que se deseen del HashMap, además de específicar el tipo de "key"(DATO = String, int, boolean u etc), al que refiere para poder recorrerse.
                     
-                    for(String key : keys) { // RECORRE LOS VALORES DEL SET UNO A UNO Y VA RETORNANDO
-                        if(key.equals("mecanics")) {
+                    for(String key : keys) { // RECORRE LOS VALORES DEL SET UNO A UNO Y VA RETORNANDO EN LA VARIABLE "KEY" CADA ELEMENTO POR SEPARADO
+                        if(key.equals("mecanics")) {//COMPARA SI LA VARIABLE ES DE UN TIPO U OTRO Y ACTUA
                             
                             List <Mecanic> mecanics = (ArrayList <Mecanic>) reparacio.getMaps().get(key); // ADJUNTAMOS LOS VALORES CONTENIDOS EN EL ARRAYLIST DE MAPS CON LA "KEY" "MECANIC" y almacenamos a un nuevo List "MECANICS"
                             
