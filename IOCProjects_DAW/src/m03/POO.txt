@@ -1,4 +1,14 @@
-				*** POO ***
+				*** JAVA AVANZADO  ***
+
+	*** ShortCuts***
+
+- Ver Lista de TODO:
+
+	- Ubicar "Window".
+	- Ubicar "Action Items".
+	- Ubicar "TODOS only".
+	- Arreglar de forma ascendente o descendente, según convenga e ir con un doble click allá.
+
 
 
 PASOS A SEGUIR PARA ENFRENTAR UN PROBLEMA EN POO
@@ -39,8 +49,129 @@ PASOS A SEGUIR PARA ENFRENTAR UN PROBLEMA EN POO
 
 
 
- 
+			*** HERENCIA ***
 
+- EL uso del llamado de la pralabra "super" en JAVA, funciona para hacer el llamado de la superclase y sus métodos.
+
+
+
+			*** POLIMORFISMO ***
+
+- Principio de sustitución : se pude utilizar un objeto de la subclase siempre que el programa espere un objeto de la superclase.
+
+- Las variables objetos son polimórficas.
+
+			--- Es decir, en la superclase se pueden almacenar objetos de la misma como subclases ---
+
+
+		*** REFUNDICION Y CASTING DE OBJETOS ***
+
+- Las clases en Java se pueden castear para hacer converger múltiples métodos de múltiples clases, solo casteandolas, ejm:
+
+
+		ejm:
+
+			(Mechanic)(Recanvi) taller.getComponents.get(i).getList()).getCif());	--- CASTEAMOS UNA CLASE MECHANICS DENTRO DE LA CLASE RECANVIS ---
+
+
+
+
+		*** INTERFACE SERIARIZABLE ***
+
+- Serializar un objeto permite convertir a un objeto que la implemente en bytes que pueden ser posteriormente reconstituidos.
+
+- Un objeto puede serializar si implementa la interface, la misma no declara ningún método o función, es vacia, se implementa de esta forma:
+
+	ejm:
+
+		import java.io;
+		public interface Seriarizable {
+			--- ES VACIA ---
+			}
+
+	IMPLEMENTAR POR UNA CLASE:
+
+		public class Taller implements java.io.Seriarizable{ //ASI SE HACE EL LLAMADO A LA INTERFACE
+
+			private int[] x;
+			...
+			}
+
+	- El método defaultWriteObject de la clase ObjectOutputStream  se encarga de realizar la serializacion del objeto.
+	- El método defaultReadObject de la clase ObjectOutputStream se encarga de deconstruir la seriarización, lee el flujo de entrada y reconstruye el objeto.
+
+
+			--- IMPLEMENTACION ---
+
+1.- Crea un objeto:
+
+	Taller taller = new Taller();
+
+2.- Creamos flujo de salida, indicando el nombre del archivo con una clase "File" *** I M P O R T A N T ***
+
+	FileOutputStream fileSalida = new FileOutputStream("ejemplo.obj");
+
+3.- El flujo ObjectOutputStream procesa datos y vincula a un objeto fileOut, de la clase FileOutputStream.
+
+	ObjectOutputStream exit = new ObjectOutputStream(fileExit): --- OBJETO ANTERIOR ---
+
+4.- El método writeObject escribe los objetos del flujo de salida y los guarda.
+
+	exit.writeObject("hola"); --- REFIERE AL OBJETO ObjectOutputStream---
+	exit.writeObject(taller); --- SE ALMACENA EL OBJETO QUE HAYAMOS DEFINIDO ---
+
+5.- Cerrar el flujo:
+
+	exit.close(); --- DEBEN DE CERRARSE LOS FLUJOS PUES CONSUMEN MUCHOS RECURSOS DEL EQUIPO ---
+
+
+			--- Lectura del objeto ---
+
+1.- Crear un flujo de entrada, nombre del archivo o un objeto de la clase "File"
+
+	FileInputStream fileEntrada = new FileInputStream("ejmeplo.obj");
+
+ 
+2.- El flujo de entrada ObjectInputStream procesa los datos y se debe de vincular a un objeto fileEntrada de la clase FilInputStream.
+
+	ObjectInputStream entry = new ObjectInputStream(fileEntrada); 
+
+	--- ObjectInputStream entry = new ObjectInputStream(new FileInputStream("ejemplo.obj")) --- FORMA ABREVIADA UNA SOLA LÍNEA
+
+3.- El método readObject lee los objetos del flujo de entrada en el orden que fueron escritos.
+
+	Taller tallerEjemplo(Taller) entry.readObject(); --- SE DEBE DE CASTEAR LA CLASE A LA QUE HACE REFERENCIA EL OBJETO, U A EL TIPO DE DATO, YA QUE PUEDEN SER (String), (Integer), (Double) o lo que se demande ---
+
+4.- Los objetos serializados funcionan con los métodos de la clase:
+
+	tallerEjemplo.getComponents(); --- CUALQUIER MÉTODO ---
+
+5.- Cerrar los flujos:
+
+	entry.close();
 	
 
+			*** Jframe ***
+
+- nacen invisibles, es necesario el método "setVisible()" para hacerlos visisbles en pantalla.
+- nacen con un tamaño por defecto en JAVA, se necesita un método "setSize()" para ajustarlo a nuestro modo.
+- indicar qué hace el programa cuando se cierre.
+
+		- MÉTODOS DE Jframe
+
+	- setSize(ancho, alto) : Permite cambiar el ancho y alto.
+
+	- setLocation(x, y) : Permite mover o cambiar de posición un componente de la ventana.
+
+	- setBounds(x, y, ancho, alto) : une el setSize() y setLocation() en un único método con 4 parámetros.
+
+	- setTitle(String title) : Coloca el nombre al Jframe.
+
+	- setResizable(boolean) : Permite si el Jframe se puede o no modificar en tiempo de ejecución.
+
+	- setExtendedState(JFrame.MAXIMIZED_BOTH) : Fuciona para colocar el Jfram en pantalla completa.
+
+	- setVisible(boolean) : indica la visibilidad o no del Jframe.
+
+  
 - 
