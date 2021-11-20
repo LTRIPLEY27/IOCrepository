@@ -13,9 +13,9 @@ public class Furgoneta extends POO_Clases_Herencia { // REFLEJO DE LA HERENCIA
     private boolean Asientos_Cuero;
     private int Sobrecarga;
     
-    public Furgoneta( boolean cuero, int sobrecarga) {
+    public Furgoneta(String color, double tamaño, boolean asiento, boolean cuero, int sobrecarga) {
         
-        super(); // LLAMA AL CONSTRUCTOR DE LA CLASE PADRE
+        super(color, tamaño, asiento ); // LLAMA AL CONSTRUCTOR DE LA CLASE PADRE
         
         this.Asientos_Cuero = cuero;
         this.Sobrecarga = sobrecarga;

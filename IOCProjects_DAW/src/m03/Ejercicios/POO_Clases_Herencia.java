@@ -80,14 +80,10 @@ public class POO_Clases_Herencia {
 
        coche = new POO_Clases_Herencia(color, tamaño, asientos);
        
-       Furgoneta furgo = new Furgoneta(false, 3000);
+       Furgoneta furgo = new Furgoneta(color, tamaño, asientos,false, 3000);
        
        System.out.println(coche.toString());
-    
+        System.out.println(furgo.toString());
     } 
     
-    public class Coche {
-        
-       
-    }
 }
