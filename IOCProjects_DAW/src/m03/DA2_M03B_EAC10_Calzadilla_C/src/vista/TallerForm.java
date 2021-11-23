@@ -45,6 +45,16 @@ public class TallerForm {
             quan l'usuari ho fa amb el control "X" de la finestra. Per fer tot això, heu de cridar al mètode showFinestra() d'aquesta
             classe.       
         */
+        
+        frame = new JFrame("Formulari Taller");
+        
+        frame.setLayout(new GridLayout(0,1)); // DIMENSION DE 1 COLUMNA
+        
+        lCif = new JLabel("CIF");
+        
+        tCif = new JTextField(""),
+        
+        
     }
     
     public TallerForm(String cif, String nom, String adreca){

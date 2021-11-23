@@ -60,13 +60,7 @@ public class MenuTaller {
             this.frame.add(boton);
         }
 
-       //JButton boton = new JButton();
-       
-       
-       //this.frame.setVisible(true);
-        frame.setSize(AMPLADA, ALCADA);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+       showFinestra();
     }
     
     private void showFinestra(){

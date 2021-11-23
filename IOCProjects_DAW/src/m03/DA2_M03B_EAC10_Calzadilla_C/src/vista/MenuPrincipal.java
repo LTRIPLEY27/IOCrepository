@@ -54,10 +54,7 @@ public class MenuPrincipal {
             this.frame.add(botton); // MIENTRAS RECORRE EL ARRAY DE MENUBUTTONS VA ADHIRIENDO LOS ELEMENTOS AL FRAME
             
         }
-       /* 
-        this.frame.setSize(AMPLADA, ALCADA);
-        this.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.frame.setVisible(true);*/
+       
        showFinestra();// VERIFICAR
         
     }
