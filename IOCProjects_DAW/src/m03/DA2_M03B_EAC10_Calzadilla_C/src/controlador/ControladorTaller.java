@@ -35,10 +35,8 @@ public class ControladorTaller implements ActionListener {
          */
         
         menuTaller = new MenuTaller();
+        afegirListenersMenu(); // LLAMADA AL MÉTODO AFEGIR QUE SIGUE
         
-        for(JButton buton : menuTaller.getMenuButtons()) {
-            buton.addActionListener(this);
-        }
 
     }
 
@@ -51,6 +49,10 @@ public class ControladorTaller implements ActionListener {
         A cada botó del menú de tallers, s'afegeix aquest mateix objecte (ControladorTaller) com a listener
         
          */
+        
+        for(JButton boton : menuTaller.getMenuButtons()) {
+            boton.addActionListener(this); // ADHIERE LOS VALORES 
+        }
 
     }
 
@@ -62,6 +64,9 @@ public class ControladorTaller implements ActionListener {
         A cada botó del formulari del taller, s'afegeix aquest mateix objecte (ControladorTaller) com a listener
         
          */
+        
+        tallerForm.getDesar().addActionListener(this);
+        tallerForm.getSortir().addActionListener(this); // LLAMA A LOS MÉTODOS SALIR Y DEJAR, SEGÚN CORRESPONDA.
 
     }
 
@@ -72,6 +77,8 @@ public class ControladorTaller implements ActionListener {
         
         Al botó de sortir de la llista de tallers, s'afegeix aquest mateix objecte (ControladorTaller) com a listener
         */
+        
+        tallerForm.getSortir().addActionListener(this);
     }
 
     @Override
@@ -113,6 +120,44 @@ public class ControladorTaller implements ActionListener {
                 - Heu de tornar al menú de tallers (i amagar la llista)
          
          */
+        
+        JButton[] boton = menuTaller.getMenuButtons();
+        
+        for (int i = 0; i < boton.length; i++) {
+            if(e.getSource() == boton[i]) {
+                menuTaller.getFrame().setVisible(false);
+                opcioSelec = i; 
+                seleccionarOpcio(i); // ENVIA POR PARÁMETROS LA OPCION REQUERIDA
+            }
+        }
+        
+        if(tallerForm != null) {
+            if(e.getSource() == tallerForm.getDesar()) { // LLAMA AL MÉTODO PARA COMPROBAR SI SE GUARDA O NO
+                if(opcioSelec == 1) { // VERIFICA EL CASE
+                    
+                    
+                    Taller taller = new Taller(tallerForm.gettCif().getText(), tallerForm.gettNom().getText(), tallerForm.gettAdreca().getText());
+                    ControladorPrincipal.getTallers()[ControladorPrincipal.getpTallers()] = taller; // UBICA AL NUEVO TALLER EN EL ARRAY DE TALLERES CONTENIFDO EN EL CONTROLADOR
+                    
+                    ControladorPrincipal.setpTallers();
+                    
+                    tallerForm.gettCif().setText(String.valueOf(taller.getCif()));
+                    ControladorPrincipal.setTallerActual(taller);
+                    opcioSelec = 2;
+                    
+                } else if( opcioSelec == 3 ) {
+                    ControladorPrincipal.getTallerActual().setNom(tallerForm.gettNom().getText());
+                }
+                
+            } else if(e.getSource() == tallerForm.getSortir()) {
+                tallerForm.getFrame().setVisible(false);
+                menuTaller.getFrame().setVisible(true);  // SE MUESTRA UNO Y NO OTRO SIN CERRAR EL PROGRAMA
+            }
+        } if(e.getSource() == tallerLlista) {
+            
+            tallerLlista.getFrame().setVisible(false);
+            menuTaller.getFrame().setVisible(true);
+        }
 
     }
 
@@ -216,6 +261,28 @@ public class ControladorTaller implements ActionListener {
                     - Un cop escollit el mètode, es desa el taller cridant a desarTaller del gestor de persistència.
                  */
 
+                menuTaller.getFrame().setVisible(true);
+                
+                if(ControladorPrincipal.getTallerActual() != null) {
+                    int getMessage = JOptionPane.QUESTION_MESSAGE;
+                    
+                    int eleccion = JOptionPane.showOptionDialog(null, "Selecciona método", "dejar Taller", 0, getMessage, null, ControladorPrincipal.getMETODESPERSISTENCIA(), "XML");
+                    
+                    if(eleccion != JOptionPane.CLOSED_OPTION) {
+                        
+                        GestorPersistencia persiste = new GestorPersistencia();
+                        
+                        try{
+                            persiste.desarTaller(ControladorPrincipal.getMETODESPERSISTENCIA()[eleccion], String.valueOf(ControladorPrincipal.getTallerActual().getCif()), ControladorPrincipal.getTallerActual());
+                        } catch(GestorTallerMecanicException e) {
+                            JOptionPane.showMessageDialog(menuTaller.getFrame(), e.getMessage());
+                        }
+                        
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(menuTaller.getFrame(), "Selecciona un taller");
+                }
+                break;
         }
 
     }
