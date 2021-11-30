@@ -78,7 +78,7 @@ public class ControladorTaller implements ActionListener {
         Al botó de sortir de la llista de tallers, s'afegeix aquest mateix objecte (ControladorTaller) com a listener
         */
         
-        tallerForm.getSortir().addActionListener(this);
+        tallerLlista.getSortir().addActionListener(this);
     }
 
     @Override
