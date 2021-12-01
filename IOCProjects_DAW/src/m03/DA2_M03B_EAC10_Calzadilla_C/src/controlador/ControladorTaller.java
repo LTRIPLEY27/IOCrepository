@@ -154,9 +154,9 @@ public class ControladorTaller implements ActionListener {
                 tallerForm.getFrame().setVisible(false);
                 menuTaller.getFrame().setVisible(true);  // SE MUESTRA UNO Y NO OTRO SIN CERRAR EL PROGRAMA
             }
-        } if(tallerLlista != null) {  // VERIFICAR SI ES EL CIERRE DE TALLERLLISTA
+        } if(tallerLlista != null) {  // VERIFICAR SI ESTÁ VACIÓ O NO EL ARRAY
             
-            if(e.getSource() == tallerLlista.getSortir()) {
+            if(e.getSource() == tallerLlista.getSortir()) { // SI SE PRESIONA LA SALIDA VALIDA Y RETORNA AL MENÚ ANTEIOR
                 
             
                 tallerLlista.getFrame().setVisible(false);
