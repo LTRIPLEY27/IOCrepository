@@ -78,7 +78,8 @@ public class ControladorTaller implements ActionListener {
         Al botó de sortir de la llista de tallers, s'afegeix aquest mateix objecte (ControladorTaller) com a listener
         */
         
-       tallerLlista.getSortir().addActionListener(this);
+       tallerLlista.getSortir().addActionListener(this);  
+       //tallerLlista.getSortir().addActionListener(this);
     }
 
     @Override
@@ -146,21 +147,25 @@ public class ControladorTaller implements ActionListener {
                     opcioSelec = 2;
                     
                 } else if( opcioSelec == 3 ) {
-                    ControladorPrincipal.getTallerActual().setNom(tallerForm.gettNom().getText());
+                    ControladorPrincipal.getTallerActual().setCif(tallerForm.gettCif().getText());
                 }
                 
             } else if(e.getSource() == tallerForm.getSortir()) {
                 tallerForm.getFrame().setVisible(false);
                 menuTaller.getFrame().setVisible(true);  // SE MUESTRA UNO Y NO OTRO SIN CERRAR EL PROGRAMA
             }
-        } if(e.getSource() == tallerLlista) {
+        } if(tallerLlista != null) {  // VERIFICAR SI ES EL CIERRE DE TALLERLLISTA
             
-            tallerLlista.getFrame().setVisible(false);
-            menuTaller.getFrame().setVisible(true);
+            if(e.getSource() == tallerLlista.getSortir()) {
+                
+            
+                tallerLlista.getFrame().setVisible(false);
+                menuTaller.getFrame().setVisible(true);
         }
 
     }
-
+    }
+    
     private void seleccionarOpcio(Integer opcio) {
 
         switch (opcio) {
