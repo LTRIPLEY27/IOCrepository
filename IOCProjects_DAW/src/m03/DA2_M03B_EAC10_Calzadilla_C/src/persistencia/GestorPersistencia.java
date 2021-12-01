@@ -5,7 +5,7 @@ import model.Taller;
 
 /**
  *
- * @author fta
+ * @author Isabel Calzadilla
  */
 public class GestorPersistencia {
 
