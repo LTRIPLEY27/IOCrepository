@@ -1,5 +1,12 @@
 package persistencia;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import javax.swing.JOptionPane;
 import model.Taller;
 import principal.GestorTallerMecanicException;
 
@@ -38,6 +45,12 @@ public class GestorSerial implements ProveedorPersistencia{
          *
          *Retorn: cap
          */
+        
+        try (ObjectOutputStream gestor = new ObjectOutputStream(new FileOutputStream(new File(nomFitxer + ".ser")))){  // CREA UN OBJETO SERIARIZABLE CON EL NOMBRE DEL TALLER POR FICHERO, EN CASO DE ERROR DISPARA LA EXCEPCION
+                
+        } catch(IOException ex) {
+                throw new GestorTallerMecanicException("GestorSerial.desar");
+                }
 
     }
 
@@ -57,5 +70,15 @@ public class GestorSerial implements ProveedorPersistencia{
          *Retorn: cap
          */
 
+        try(ObjectInputStream ficher = new ObjectInputStream(new FileInputStream(new File(nomFitxer + ".ser")))){//FICHERO MÁS EXTENSION .SER
+            
+            taller = (Taller) ficher.readObject(); // LEE EL OBJETO TALLER
+            
+        } catch(IOException ex) {
+            throw new GestorTallerMecanicException("GestorSerial.carregar");
+        } catch(ClassNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "Error de classe: " + ex.getMessage());
+        }
+        
     }
 }
