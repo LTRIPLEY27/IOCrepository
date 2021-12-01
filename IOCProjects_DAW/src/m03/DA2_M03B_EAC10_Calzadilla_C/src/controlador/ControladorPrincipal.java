@@ -10,7 +10,7 @@ import vista.MenuPrincipal;
 
 /**
  *
- * @author fta
+ * @author Isabel Calzadilla
  */
 public class ControladorPrincipal implements ActionListener {
 
