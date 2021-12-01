@@ -51,7 +51,7 @@ public class ControladorTaller implements ActionListener {
          */
         
         for(JButton boton : menuTaller.getMenuButtons()) {
-            boton.addActionListener(this); // ADHIERE LOS VALORES 
+            boton.addActionListener(this); // ADHIERE LOS VALORES COMO LISTENER
         }
 
     }
@@ -78,7 +78,7 @@ public class ControladorTaller implements ActionListener {
         Al botó de sortir de la llista de tallers, s'afegeix aquest mateix objecte (ControladorTaller) com a listener
         */
         
-        tallerLlista.getSortir().addActionListener(this);
+       tallerLlista.getSortir().addActionListener(this);
     }
 
     @Override
@@ -131,7 +131,7 @@ public class ControladorTaller implements ActionListener {
             }
         }
         
-        if(tallerForm != null) {
+        if(tallerForm != null) { // VERIFICA SI ES NULO O NO
             if(e.getSource() == tallerForm.getDesar()) { // LLAMA AL MÉTODO PARA COMPROBAR SI SE GUARDA O NO
                 if(opcioSelec == 1) { // VERIFICA EL CASE
                     
@@ -139,7 +139,7 @@ public class ControladorTaller implements ActionListener {
                     Taller taller = new Taller(tallerForm.gettCif().getText(), tallerForm.gettNom().getText(), tallerForm.gettAdreca().getText());
                     ControladorPrincipal.getTallers()[ControladorPrincipal.getpTallers()] = taller; // UBICA AL NUEVO TALLER EN EL ARRAY DE TALLERES CONTENIFDO EN EL CONTROLADOR
                     
-                    ControladorPrincipal.setpTallers();
+                    ControladorPrincipal.setpTallers();// ACTUALIZA EL ARRAY
                     
                     tallerForm.gettCif().setText(String.valueOf(taller.getCif()));
                     ControladorPrincipal.setTallerActual(taller);
@@ -227,15 +227,13 @@ public class ControladorTaller implements ActionListener {
                         if (pos >= 0) {
                             
                             Object[] options = {"OK", "Cancel·lar"};                            
-                            int i = JOptionPane.showOptionDialog(null, "Premeu OK per substituir-lo.", "El taller ja existent",
-                                    JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,
-                                    null, options, options[0]);
+                            int i = JOptionPane.showOptionDialog(null, "Premeu OK per substituir-lo.", "El taller ja existent",JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE,null, options, options[0]);
                             
                             if (i == 0) {
                                 ControladorPrincipal.getTallers()[pos] = taller;
                             }
                             
-                        } else {
+                        } else { // ADHIERE EL NUEVO TALLER
                             
                             ControladorPrincipal.getTallers()[ControladorPrincipal.getpTallers()] = taller;
                             ControladorPrincipal.setpTallers();

@@ -52,8 +52,33 @@ public class TallerForm {
         
         lCif = new JLabel("CIF");
         
-        tCif = new JTextField(""),
+        tCif = new JTextField("");
         
+        lNom = new JLabel("Nom");
+                
+        tNom = new JTextField("");
+        
+        lAdreca = new JLabel("Adresa");
+                
+        tAdreca = new JTextField("");
+        
+        desar = new JButton("Desar");
+        
+        sortir = new JButton("Sortir");
+        
+        
+        /// ES IMPRESCINDIBLE ADHERIR LOS ELEMENTOS AL FRAME, CASO CONTRARIO JAMÁS SE MUESTRAN
+        
+        frame.add(lCif);
+        frame.add(tCif);
+        frame.add(lNom);
+        frame.add(tNom);
+        frame.add(lAdreca);
+        frame.add(tAdreca);
+        frame.add(desar);  // LOS ELEMENTOS Y BOTENES
+        frame.add(sortir);
+        
+        showFinestra();
         
     }
     

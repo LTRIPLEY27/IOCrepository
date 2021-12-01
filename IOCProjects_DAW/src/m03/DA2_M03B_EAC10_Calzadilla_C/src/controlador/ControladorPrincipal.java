@@ -50,6 +50,13 @@ public class ControladorPrincipal implements ActionListener {
         correspon amb la posició que el botó ocupa a l'array de botons de menuPrincipal.
         
          */
+        
+        JButton [] boton = menuPrincipal.getMenuButtons();  // VARIABLE QUE RECIBE LOS VALORES DEL MENU PARA UBICAR LAS POSICIONES
+        for(int i = 0; i < boton.length; i++){ //RECORRE LOS BOTONES SEGÚN SE ESCOJA LA OPCION
+            if(e.getSource() == boton[i]) {
+                seleccionarOpcio(i);
+            }
+        }
     }
 
     private void seleccionarOpcio(int opcio) {

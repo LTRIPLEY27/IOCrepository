@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author fta
+ * @author i Calzadilla
  */
 public interface Component {  
     

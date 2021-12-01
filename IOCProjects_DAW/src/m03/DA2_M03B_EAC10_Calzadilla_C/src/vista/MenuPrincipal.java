@@ -66,7 +66,7 @@ public class MenuPrincipal {
         frame.setVisible(true);
     }
 
-    public JFrame getFrame() {
+    public JFrame getFrame() { // LA CLASE JFRAME TAMBIEN DEBE DE CONTENER MÉTODOS DE ACCESO
         return frame;
     }
 

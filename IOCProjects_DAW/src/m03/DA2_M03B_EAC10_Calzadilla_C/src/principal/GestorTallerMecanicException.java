@@ -2,7 +2,7 @@ package principal;
 
 /**
  *
- * @author fta
+ * @author i calzadilla
  */
 public class GestorTallerMecanicException extends Exception {
 

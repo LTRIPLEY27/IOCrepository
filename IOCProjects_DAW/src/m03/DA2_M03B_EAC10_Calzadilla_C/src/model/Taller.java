@@ -16,7 +16,7 @@ import principal.GestorTallerMecanicException;
 
 /**
  *
- * @author fta
+ * @author isabel calzadilla
  */
 public class Taller implements Component, Serializable {
 
@@ -29,6 +29,10 @@ public class Taller implements Component, Serializable {
         this.cif = cif;
         this.nom = nom;
         this.adreca = adreça;
+    }
+
+    public Taller(String text) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 
