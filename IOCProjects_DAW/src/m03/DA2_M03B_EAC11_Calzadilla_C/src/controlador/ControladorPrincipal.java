@@ -17,7 +17,7 @@ public class ControladorPrincipal implements ActionListener {
     static private final int MAXTALLERS = 4;
     static private Taller[] tallers = new Taller[MAXTALLERS];
     static private int pTallers = 0; //Priemra posició buida del vector tallers
-    static private Taller tallerActual = null;
+    static private Taller tallerActual = null;// NULL VALUE
     static private int tipusComponent = 0;
     static private GestorPersistencia gp = new GestorPersistencia();
     static private final String[] METODESPERSISTENCIA = {"XML", "Serial", "JDBC", "DB4O"};
