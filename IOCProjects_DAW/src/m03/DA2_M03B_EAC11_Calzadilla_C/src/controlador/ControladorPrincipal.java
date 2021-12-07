@@ -35,7 +35,7 @@ public class ControladorPrincipal implements ActionListener {
 
         //S'AFEGEIX EL CONTROLADOR COM A LISTENER DELS BOTONS
         for (JButton boto : menuPrincipal.getMenuButtons()) {
-            boto.addActionListener(this); // COMO LISTENER
+            boto.addActionListener(this); // COMO LISTENER AL INICIO 
         }
 
     }
