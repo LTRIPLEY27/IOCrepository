@@ -148,7 +148,7 @@ public class GestorJDBC implements ProveedorPersistencia {
         try {
             
             conn = DriverManager.getConnection(urlBaseDades, usuari, contrasenya); // EL DRIVEMANAGER RECIBE LOS 3 PARÁMETROS DEFINIDOS: BASE DE DATOS, USUARIO Y CONTRASEÑA
-            
+            insereixTallerSt = conn.prepareStatement(insereixTallerSQL);  // REFERENCIA AL 
             
         } catch (SQLException e) {
             
