@@ -1,5 +1,6 @@
 package persistencia;
 
+import java.sql.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -38,7 +39,10 @@ public class GestorJDBC implements ProveedorPersistencia {
      * Files: la del taller el CIF del qual coincideixi amb el passat per paràmetre
      *
      */
-    private static String codiTallerSQL = 
+    private static String codiTallerSQL = ""
+            + "SELECT * "
+            + "FROM tallers c "
+            + "WHERE c.cif = ?;";
 
     private PreparedStatement codiTallerSt;
 
@@ -51,7 +55,9 @@ public class GestorJDBC implements ProveedorPersistencia {
      * Els valors dels camps són els que es passaran per paràmetre
      *
      */
-    private static String insereixTallerSQL = 
+    private static String insereixTallerSQL = ""
+            + "INSERT INTO taller(cif, nom, adresa) "
+            + "VALUES (?, ?, ?);";
 
     private PreparedStatement insereixTallerSt;
 
@@ -65,7 +71,10 @@ public class GestorJDBC implements ProveedorPersistencia {
      * Columnes a actualitzar: nom i adreca amb els altres valors passats per paràmetre
      *
      */
-    private static String actualitzaTallerSQL = 
+    private static String actualitzaTallerSQL = ""
+            + "UPDATE taller "
+            + " SET nom = ?, adresa = ? "
+            + " WHERE cif = ?;";
 
     private PreparedStatement actualitzaTallerSt;
 
@@ -78,7 +87,9 @@ public class GestorJDBC implements ProveedorPersistencia {
      * Files a eliminar: les que es corresponguin al CIF del taller passat per paràmetre
      *
      */
-    private static String eliminaRecanviSQL = 
+    private static String eliminaRecanviSQL = ""
+            + " DELETE FROM recanvis"
+            + " WHERE codi = ? ;";
 
     private PreparedStatement eliminaRecanviSt;
 
@@ -91,7 +102,9 @@ public class GestorJDBC implements ProveedorPersistencia {
      * Els valors dels camps són els que es passaran per paràmetre
      *
      */
-    private static String insereixRecanviSQL = 
+    private static String insereixRecanviSQL = ""
+            + " INSERT INTO recanvis(codi, nom, fabricant, preu, assignat)"
+            + "VALUES (?, ?, ?, ?, ?, ?);";
 
     private PreparedStatement insereixRecanviSt;
 
@@ -105,7 +118,10 @@ public class GestorJDBC implements ProveedorPersistencia {
      * Files: totes les que el CIF del taller coincideixi amb el passat per paràmetre
      *
      */
-    private static String selRecanvisSQL = 
+    private static String selRecanvisSQL = ""
+            + "SELECT *"
+            + "FROM recanvis"
+            + "WHERE recanvis = ?;";
 
     private PreparedStatement selRecanvisSt;
 
@@ -128,6 +144,15 @@ public class GestorJDBC implements ProveedorPersistencia {
         String urlBaseDades = "jdbc:derby://localhost:1527/EAC112122S1";
         String usuari = "root";
         String contrasenya = "root123";
+        
+        try {
+            
+            conn = DriverManager.getConnection(urlBaseDades, usuari, contrasenya); // EL DRIVEMANAGER RECIBE LOS 3 PARÁMETROS DEFINIDOS: BASE DE DATOS, USUARIO Y CONTRASEÑA
+            
+            
+        } catch (SQLException e) {
+            
+        }
     }
 
     public void tancaConnexio() throws SQLException {

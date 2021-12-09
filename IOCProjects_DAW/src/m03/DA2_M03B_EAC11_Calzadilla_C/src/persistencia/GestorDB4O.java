@@ -1,8 +1,15 @@
 package persistencia;
 
+import java.sql.*;
 import com.db4o.ObjectContainer;
 import model.Taller;
 import principal.GestorTallerMecanicException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+        
 
 /**
  *
@@ -34,7 +41,15 @@ public class GestorDB4O implements ProveedorPersistencia {
      *
      */
     public void estableixConnexio() {
-
+        
+        try{ // SE HA DE BORDEAR LA CONEXION CON UN TRY PARA CAPTURAR POTENCIALES EXCEPTIONES 
+            
+            Connection connect = 
+            
+        } catch(Exception e) {
+            
+        }
+        
     }
 
     public void tancaConnexio() {
