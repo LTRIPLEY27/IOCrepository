@@ -41,7 +41,7 @@ public class GestorJDBC implements ProveedorPersistencia {
      */
     private static String codiTallerSQL = ""
             + "SELECT * "
-            + "FROM tallers c "
+            + "FROM tallers c " // verificar método
             + "WHERE c.cif = ?;";
 
     private PreparedStatement codiTallerSt;
@@ -57,7 +57,7 @@ public class GestorJDBC implements ProveedorPersistencia {
      */
     private static String insereixTallerSQL = ""
             + "INSERT INTO taller(cif, nom, adresa) "
-            + "VALUES (?, ?, ?);";
+            + "VALUES (?, ?, ?);";      
 
     private PreparedStatement insereixTallerSt;
 
@@ -76,7 +76,7 @@ public class GestorJDBC implements ProveedorPersistencia {
             + " SET nom = ?, adresa = ? "
             + " WHERE cif = ?;";
 
-    private PreparedStatement actualitzaTallerSt;
+    private PreparedStatement actualitzaTallerSt;  // EL STATEMENT ES CON EL QUE SE HARÁ EL LLAMADO LUEGO LA CONEXXION EN EL PREPARE
 
     /*
      * TODO
@@ -104,7 +104,7 @@ public class GestorJDBC implements ProveedorPersistencia {
      */
     private static String insereixRecanviSQL = ""
             + " INSERT INTO recanvis(codi, nom, fabricant, preu, assignat)"
-            + "VALUES (?, ?, ?, ?, ?, ?);";
+            + "VALUES (?, ?, ?, ?, ?, ?);"; // PARÁMETROS EQUIVALENTES A LOS ATRIBUTOS DE LA CLASE RECANVIS
 
     private PreparedStatement insereixRecanviSt;
 
@@ -148,7 +148,18 @@ public class GestorJDBC implements ProveedorPersistencia {
         try {
             
             conn = DriverManager.getConnection(urlBaseDades, usuari, contrasenya); // EL DRIVEMANAGER RECIBE LOS 3 PARÁMETROS DEFINIDOS: BASE DE DATOS, USUARIO Y CONTRASEÑA
-            insereixTallerSt = conn.prepareStatement(insereixTallerSQL);  // REFERENCIA AL 
+            
+            codiTallerSt = conn.prepareStatement(codiTallerSQL);
+            
+            insereixTallerSt = conn.prepareStatement(insereixTallerSQL);  // REFERENCIA AL MÉTODO PREVIO DE "INSEREIX" CON PARAMETRO EL STRING SQL DEL MISMOs
+            
+            actualitzaTallerSt = conn.prepareStatement(actualitzaTallerSQL);
+            
+            eliminaRecanviSt = conn.prepareStatement(eliminaRecanviSQL);
+            
+            insereixRecanviSt = conn.prepareStatement(insereixRecanviSQL);
+            
+            
             
         } catch (SQLException e) {
             
