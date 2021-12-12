@@ -149,6 +149,7 @@ public class GestorJDBC implements ProveedorPersistencia {
             
             conn = DriverManager.getConnection(urlBaseDades, usuari, contrasenya); // EL DRIVEMANAGER RECIBE LOS 3 PARÁMETROS DEFINIDOS: BASE DE DATOS, USUARIO Y CONTRASEÑA
             
+            // LLAMADO A TODOS LOS MÉTODOS PREVIAMENTE DEFINIDOS PARA CAMBIO, SELECCION, ACTUALIZACION DE TALLERES Y RECAMBIOS
             codiTallerSt = conn.prepareStatement(codiTallerSQL);
             
             insereixTallerSt = conn.prepareStatement(insereixTallerSQL);  // REFERENCIA AL MÉTODO PREVIO DE "INSEREIX" CON PARAMETRO EL STRING SQL DEL MISMOs
@@ -158,11 +159,15 @@ public class GestorJDBC implements ProveedorPersistencia {
             eliminaRecanviSt = conn.prepareStatement(eliminaRecanviSQL);
             
             insereixRecanviSt = conn.prepareStatement(insereixRecanviSQL);
+            selRecanvisSt = conn.prepareStatement(selRecanvisSQL);
+            
             
             
             
         } catch (SQLException e) {
-            
+            conn = null;
+            System.out.println(e.getMessage()); // CAPTURA DE LA SQL EXCEPTION Y MUESTRA EN PANTALLA
+            throw e;//
         }
     }
 
@@ -195,6 +200,17 @@ public class GestorJDBC implements ProveedorPersistencia {
     @Override
     public void desarTaller(String nomFitxer, Taller taller) throws GestorTallerMecanicException {
 
+        try {
+            
+            if(conn == null) {   // VERIFICA SI LA CONEXXION ES NULA, EN CASO TAL, LLAMA AL MÉTODO DE ESTABLECERLA
+                estableixConnexio();
+            }
+            
+            codiTallerSt.setString(1, taller.getCif()); // MÉTODO RECIBE EL ATRIBUTO DEL CÓDIGO DE TALLER COMO PARÁMETRO
+            ResultSet regTaller = codiTallerSt.executeQuery();
+        } catch(SQLException ex) {
+            throw new GestorTallerMecanicException("GestorJDBC.desar");
+        }
     }
 
     /*
