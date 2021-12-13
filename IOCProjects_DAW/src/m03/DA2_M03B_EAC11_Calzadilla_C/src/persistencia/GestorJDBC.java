@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import model.Taller;
 import principal.GestorTallerMecanicException;
 
+import principal.Component; // ES IMPERATIVO IMPORTAR COMPONENT PARA PODER EDITAR LOS RECAMBIOS EN RELACION CON EL TALLER
+import model.Recanvi; // DE IGUAL MANERA TAMBIEN SE DEBE DE IMPORTAR EL MODELO DE RECANVI PARA PODER EDITAR LA TABLA
+
 /**
  *
  * @author fta
@@ -207,7 +210,47 @@ public class GestorJDBC implements ProveedorPersistencia {
             }
             
             codiTallerSt.setString(1, taller.getCif()); // MÉTODO RECIBE EL ATRIBUTO DEL CÓDIGO DE TALLER COMO PARÁMETRO
-            ResultSet regTaller = codiTallerSt.executeQuery();
+            ResultSet regTaller = codiTallerSt.executeQuery(); // RECIBE LA EJECUCION DEL QUERY CON EL CÓDIGO DEL TALLER
+            
+            if(regTaller.next()) { //COMPRUEBA SI EL TALLER CON DICHO CÓDIGO EXISTE O NO, HACIENDO USO DEL MÉTODO ".NEXT"
+                
+                // ES IMPERATIVO INTRODUCIR LOS PARÁMETROS EN EL ORDEN QUE LOS RECIBE EL QUERY Y EL STATETMENT
+                actualitzaTallerSt.setString(1, taller.getNom()); // ACTUALIZA EL NOMBRE DEL TALLER (ATRIBUTO "NOM")
+                actualitzaTallerSt.setString(2, taller.getAdreca());
+                actualitzaTallerSt.setString(3, taller.getCif()); // EL "CIF" ES EL ÚLTIMO PARÁMETRO QUE RECIBE EL QUERY, YA QUE ES EL CONDICIONAL DEL WHERE
+                
+                eliminaRecanviSt.setString(1, taller.getCif()); // ELIMINA EL RECAMBIO CON EL CÓDIGO TALLER
+                eliminaRecanviSt.executeUpdate(); // ACTUALIZA 
+                
+            } else { // EN CASO DE NO EXISTIR LO INSERTA EN LA TABLA TALLERS
+                
+                insereixTallerSt.setString(1, taller.getCif()); // PRIMER PARÁMETRO SEGÚN EL ORDEN QUE SE LE INDICO EN EL QUERY
+                insereixTallerSt.setString(2, taller.getNom());
+                insereixTallerSt.setString(3, taller.getAdreca());
+                
+                insereixTallerSt.executeUpdate(); // ES IMPRESCINDIBLE LUEGO DE LLAMAR A CADA PARÁMETRO QUE RECIBE EL QUERY, HACER EL LLAMADO AL MÉTODO DE "executeUpdate" PARA QUE REALICE LA ACTUALIZACION Y CONSULTA, EN CASO CONTRARIO NO REALIZA NADA, SIEMPRE COMO ÚLTIMO PASO LUEGO DE LOS PARÁMETROS
+            }
+            
+            // INSERCION DE LOS RECAMBIOS CON LA PRELACIÓN DEL TALLER
+            
+            for(Component component : taller.getComponents()) {
+                if(component != null && component instanceof Recanvi) { // SE DEBEN DE PREVIAMENTE IMPORTAL EL MODELO DE "RECANVI" Y EL "COMPONENT" PARA PODER RECORRER EL ARRAY Y MODIFICAR EL RECANVI
+                    insereixRecanviSt.setString(1, ((Recanvi) component).getCodi()); //SE DEBE DE CASTEAR EL RECANVI DE COMPONENT ´PARA APUNTAR A LOS ATRIBUTOS
+                    insereixRecanviSt.setString(2, ((Recanvi) component).getNom());
+                    
+                    insereixRecanviSt.setString(3, ((Recanvi) component).getFabricant());
+                    insereixRecanviSt.setDouble(4, ((Recanvi) component).getPreu());
+                    
+                    insereixRecanviSt.setBoolean(5, ((Recanvi) component).isAssignat());
+                    
+                    insereixRecanviSt.executeUpdate();
+                         
+                    
+                }
+            }
+           
+            tancaConnexio(); // LLAMAMOS AL MÉTODO DE CIERRE DE CONEXION PARA NO MALGASTAR RECURSOS
+            
         } catch(SQLException ex) {
             throw new GestorTallerMecanicException("GestorJDBC.desar");
         }
