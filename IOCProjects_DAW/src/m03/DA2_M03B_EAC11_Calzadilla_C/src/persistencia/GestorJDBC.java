@@ -44,8 +44,8 @@ public class GestorJDBC implements ProveedorPersistencia {
      */
     private static String codiTallerSQL = ""
             + "SELECT * "
-            + "FROM tallers c " // verificar método
-            + "WHERE c.cif = ?;";
+            + "FROM taller c " // verificar método
+            + "WHERE c.cif = ?";
 
     private PreparedStatement codiTallerSt;
 
@@ -60,7 +60,7 @@ public class GestorJDBC implements ProveedorPersistencia {
      */
     private static String insereixTallerSQL = ""
             + "INSERT INTO taller(cif, nom, adresa) "
-            + "VALUES (?, ?, ?);";      
+            + "VALUES (?, ?, ?)";      
 
     private PreparedStatement insereixTallerSt;
 
@@ -77,7 +77,7 @@ public class GestorJDBC implements ProveedorPersistencia {
     private static String actualitzaTallerSQL = ""
             + "UPDATE taller "
             + " SET nom = ?, adresa = ? "
-            + " WHERE cif = ?;";
+            + " WHERE cif = ?";
 
     private PreparedStatement actualitzaTallerSt;  // EL STATEMENT ES CON EL QUE SE HARÁ EL LLAMADO LUEGO LA CONEXXION EN EL PREPARE
 
@@ -92,7 +92,7 @@ public class GestorJDBC implements ProveedorPersistencia {
      */
     private static String eliminaRecanviSQL = ""
             + " DELETE FROM recanvis"
-            + " WHERE codi = ? ;";
+            + " WHERE codi = ?";
 
     private PreparedStatement eliminaRecanviSt;
 
@@ -106,8 +106,8 @@ public class GestorJDBC implements ProveedorPersistencia {
      *
      */
     private static String insereixRecanviSQL = ""
-            + " INSERT INTO recanvis(codi, nom, fabricant, preu, assignat)"
-            + "VALUES (?, ?, ?, ?, ?);"; // PARÁMETROS EQUIVALENTES A LOS ATRIBUTOS DE LA CLASE RECANVIS
+            + " INSERT INTO recanvis(codi, nom, fabricant, preu, taller)"
+            + "VALUES (?, ?, ?, ?, ?)"; // PARÁMETROS EQUIVALENTES A LOS ATRIBUTOS DE LA CLASE RECANVIS
 
     private PreparedStatement insereixRecanviSt;
 
@@ -124,7 +124,7 @@ public class GestorJDBC implements ProveedorPersistencia {
     private static String selRecanvisSQL = ""
             + "SELECT *"
             + "FROM recanvis"
-            + "WHERE recanvis = ?;";
+            + "WHERE recanvis = ?";
 
     private PreparedStatement selRecanvisSt;
 
@@ -241,7 +241,7 @@ public class GestorJDBC implements ProveedorPersistencia {
                     insereixRecanviSt.setString(3, ((Recanvi) component).getFabricant());
                     insereixRecanviSt.setDouble(4, ((Recanvi) component).getPreu());
                     
-                    insereixRecanviSt.setBoolean(5, ((Recanvi) component).isAssignat());
+                    insereixRecanviSt.setString(5, ((Recanvi) (Taller) component).getCif()); // LA CLAVE FORÁNEA ES EL CIF DEL TALLER
                     
                     insereixRecanviSt.executeUpdate();
                          
@@ -282,6 +282,8 @@ public class GestorJDBC implements ProveedorPersistencia {
             if(conn == null) {
                 estableixConnexio(); 
             }
+            
+           // codiTallerSt.setS
             
             codiTallerSt.setString(1, taller.getCif()); // VERIFICAMOS EL CODIGO DEL TALLER
             ResultSet regTaller = codiTallerSt.executeQuery();
