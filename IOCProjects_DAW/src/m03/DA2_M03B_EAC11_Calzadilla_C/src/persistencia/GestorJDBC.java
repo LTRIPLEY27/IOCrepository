@@ -107,7 +107,7 @@ public class GestorJDBC implements ProveedorPersistencia {
      */
     private static String insereixRecanviSQL = ""
             + " INSERT INTO recanvis(codi, nom, fabricant, preu, assignat)"
-            + "VALUES (?, ?, ?, ?, ?, ?);"; // PARÁMETROS EQUIVALENTES A LOS ATRIBUTOS DE LA CLASE RECANVIS
+            + "VALUES (?, ?, ?, ?, ?);"; // PARÁMETROS EQUIVALENTES A LOS ATRIBUTOS DE LA CLASE RECANVIS
 
     private PreparedStatement insereixRecanviSt;
 
@@ -276,6 +276,39 @@ public class GestorJDBC implements ProveedorPersistencia {
     @Override
     public void carregarTaller(String nomFitxer) throws GestorTallerMecanicException {
 
+        try {
+            
+            // SIEMPRE ES NECESARIO VERIFICAR SI ES NULL O NO PARA ATRAPAR CUALQUIER EXCEPTION
+            if(conn == null) {
+                estableixConnexio(); 
+            }
+            
+            codiTallerSt.setString(1, taller.getCif()); // VERIFICAMOS EL CODIGO DEL TALLER
+            ResultSet regTaller = codiTallerSt.executeQuery();
+            
+            if(regTaller.next()) {
+                
+                taller = new Taller(regTaller.getString("codi"), regTaller.getString("nom"), regTaller.getString("adresa"));  // TOMA DE LOS ATRIBUTOS DE TALLER MEDIANTE EL RESULSET
+                // RECANVI SELECCION
+                
+                selRecanvisSt.setString(1, taller.getCif());
+                
+                ResultSet regRecanvi = selRecanvisSt.executeQuery(); // ALMACENAMOS EL RESULTSET DEL RECAMBIO SELECCIONADO EN LA VARIABLE
+                
+                while(regRecanvi.next()) {
+                    taller.addRecanvi(new Recanvi(regRecanvi.getString("codi"), regRecanvi.getString("nom"), regRecanvi.getString("fabricant"), regRecanvi.getDouble("preu"), regRecanvi.getBoolean("assignat")));  // ANEXO DEL RECANVI (CON TODOS SUS ATRIBUTOS A TALLER)
+                    
+                }
+                
+            } else {
+                throw new GestorTallerMecanicException("GestorJDBC.noExisteix"); // LANZAMOS LA EXCEPTION EN CASO DE NO EXISTIR
+            }
+            
+            
+        } catch(SQLException ex) {
+            throw new GestorTallerMecanicException("GestorJDBC.carregar");
+        }
+        
     }
 
 }
