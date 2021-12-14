@@ -1,38 +1,44 @@
 package persistencia;
 
-import java.sql.*;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import model.Taller;
 import principal.GestorTallerMecanicException;
-
 import principal.Component; // ES IMPERATIVO IMPORTAR COMPONENT PARA PODER EDITAR LOS RECAMBIOS EN RELACION CON EL TALLER
+
 import model.Recanvi; // DE IGUAL MANERA TAMBIEN SE DEBE DE IMPORTAR EL MODELO DE RECANVI PARA PODER EDITAR LA TABLA
 
 /**
  *
  * @author fta
- */
+ */ 
+ 
+
 public class GestorJDBC implements ProveedorPersistencia {
 
     private Taller taller;
-
+    
     private Connection conn; //Connexió a la base de dades
 
+    
     public Taller getTaller() {
         return taller;
     }
 
+    
     public void setTaller(Taller taller) {
         this.taller = taller;
     }
 
+    
     /*
      PreparedStatement necessaris
      */
 
- /*
+    /*
      * TODO
      *
      * Obtenir un taller
@@ -42,13 +48,15 @@ public class GestorJDBC implements ProveedorPersistencia {
      * Files: la del taller el CIF del qual coincideixi amb el passat per paràmetre
      *
      */
-    private static String codiTallerSQL = ""
-            + "SELECT * "
-            + "FROM taller c " // verificar método
-            + "WHERE c.cif = ?";
+    
+     private static String codiTallerSQL = ""
+            + " SELECT * "
+            + " FROM tallers " 
+            + " WHERE cif = ?";
 
     private PreparedStatement codiTallerSt;
 
+    
     /*
      * TODO
      *
@@ -58,12 +66,14 @@ public class GestorJDBC implements ProveedorPersistencia {
      * Els valors dels camps són els que es passaran per paràmetre
      *
      */
+    
     private static String insereixTallerSQL = ""
-            + "INSERT INTO taller(cif, nom, adresa) "
-            + "VALUES (?, ?, ?)";      
+            + " INSERT INTO tallers(cif, nom, adresa) "
+            + " VALUES (?, ?, ?)";
 
     private PreparedStatement insereixTallerSt;
 
+    
     /*
      * TODO
      *
@@ -74,13 +84,15 @@ public class GestorJDBC implements ProveedorPersistencia {
      * Columnes a actualitzar: nom i adreca amb els altres valors passats per paràmetre
      *
      */
+    
     private static String actualitzaTallerSQL = ""
-            + "UPDATE taller "
+            + " UPDATE tallers "
             + " SET nom = ?, adresa = ? "
             + " WHERE cif = ?";
 
-    private PreparedStatement actualitzaTallerSt;  // EL STATEMENT ES CON EL QUE SE HARÁ EL LLAMADO LUEGO LA CONEXXION EN EL PREPARE
+    private PreparedStatement actualitzaTallerSt;// EL STATEMENT ES CON EL QUE SE HARÁ EL LLAMADO LUEGO LA CONEXXION EN EL PREPARE
 
+    
     /*
      * TODO
      *
@@ -90,12 +102,14 @@ public class GestorJDBC implements ProveedorPersistencia {
      * Files a eliminar: les que es corresponguin al CIF del taller passat per paràmetre
      *
      */
+    
     private static String eliminaRecanviSQL = ""
-            + " DELETE FROM recanvis"
-            + " WHERE codi = ?";
+            + " DELETE FROM recanvis "
+            + " WHERE taller = ?";// EL PARÁMETRO ES EL TALLER EN EL RECAMBIO, NO EL CÓDIGO YA QUE ES LA CLAVE FORÁNEA
 
     private PreparedStatement eliminaRecanviSt;
 
+    
     /*
      * TODO
      *
@@ -105,12 +119,14 @@ public class GestorJDBC implements ProveedorPersistencia {
      * Els valors dels camps són els que es passaran per paràmetre
      *
      */
+    
     private static String insereixRecanviSQL = ""
-            + " INSERT INTO recanvis(codi, nom, fabricant, preu, taller)"
-            + "VALUES (?, ?, ?, ?, ?)"; // PARÁMETROS EQUIVALENTES A LOS ATRIBUTOS DE LA CLASE RECANVIS
+            + " INSERT INTO recanvis(codi, nom, fabricant, preu, taller) "
+            + " VALUES (?, ?, ?, ?, ?)";// PARÁMETROS EQUIVALENTES A LOS ATRIBUTOS DE LA CLASE RECANVIS A EXCEPCION DE "TALLER" QUE FUNCIONARÁ COMO CLAVE FORÁNEA DE LA TABLA
 
     private PreparedStatement insereixRecanviSt;
 
+    
     /*
      * TODO
      *
@@ -121,73 +137,74 @@ public class GestorJDBC implements ProveedorPersistencia {
      * Files: totes les que el CIF del taller coincideixi amb el passat per paràmetre
      *
      */
+    
     private static String selRecanvisSQL = ""
-            + "SELECT *"
-            + "FROM recanvis"
-            + "WHERE recanvis = ?";
+            + " SELECT * "
+            + " FROM recanvis "
+            + " WHERE taller = ?"; // EL PARÁMETRO "TALLER" RECIBE EL CIF COMO CLAVE PARA SELECCIONAR
 
     private PreparedStatement selRecanvisSt;
 
+    
     /*
-     *TODO
+     * TODO
      * 
-     *Paràmetres: cap
+     * Paràmetres: cap
      *
-     *Acció:
+     * Acció:
      *  - Heu d'establir la connexio JDBC amb la base de dades EAC112122S1
      *  - Heu de crear els objectes PrepareStatement declarats com a atributs d'aquesta classe
      *    amb els respectius SQL declarats com a atributs just sobre cadascun d'ells.
      *  - Heu de fer el catch de les possibles excepcions (en aquest mètode no llançarem GestorTallerMecanicException,
      *    simplement, mostreu el missatge a consola de l'excepció capturada)
      *
-     *Retorn: cap
+     * Retorn: cap
      *
      */
+    
     public void estableixConnexio() throws SQLException {
+        
         String urlBaseDades = "jdbc:derby://localhost:1527/EAC112122S1";
         String usuari = "root";
         String contrasenya = "root123";
         
         try {
-            
-            conn = DriverManager.getConnection(urlBaseDades, usuari, contrasenya); // EL DRIVEMANAGER RECIBE LOS 3 PARÁMETROS DEFINIDOS: BASE DE DATOS, USUARIO Y CONTRASEÑA
+            conn = DriverManager.getConnection(urlBaseDades, usuari, contrasenya);// EL DRIVEMANAGER RECIBE LOS 3 PARÁMETROS DEFINIDOS: BASE DE DATOS, USUARIO Y CONTRASEÑA
             
             // LLAMADO A TODOS LOS MÉTODOS PREVIAMENTE DEFINIDOS PARA CAMBIO, SELECCION, ACTUALIZACION DE TALLERES Y RECAMBIOS
+            
             codiTallerSt = conn.prepareStatement(codiTallerSQL);
-            
-            insereixTallerSt = conn.prepareStatement(insereixTallerSQL);  // REFERENCIA AL MÉTODO PREVIO DE "INSEREIX" CON PARAMETRO EL STRING SQL DEL MISMOs
-            
+            insereixTallerSt = conn.prepareStatement(insereixTallerSQL);
             actualitzaTallerSt = conn.prepareStatement(actualitzaTallerSQL);
-            
             eliminaRecanviSt = conn.prepareStatement(eliminaRecanviSQL);
-            
             insereixRecanviSt = conn.prepareStatement(insereixRecanviSQL);
             selRecanvisSt = conn.prepareStatement(selRecanvisSQL);
-            
-            
-            
-            
+        
         } catch (SQLException e) {
             conn = null;
-            System.out.println(e.getMessage()); // CAPTURA DE LA SQL EXCEPTION Y MUESTRA EN PANTALLA
-            throw e;//
+            System.out.println(e.getMessage());
+            throw e;
         }
     }
 
+    
     public void tancaConnexio() throws SQLException {
+        
         try {
             conn.close();
+        
         } finally {
             conn = null;
         }
     }
 
+    
     /*
-     *TODO
+     * TODO
      * 
-     *Paràmetres: el nom del fitxer i el taller a desar
+     * Paràmetres: el nom del fitxer i el taller a desar
      *
-     *Acció:
+     * Acció:
      *  - Heu de desar el taller sobre la base de dades:
      *      - El taller s'ha de desar a la taula tallers (nomFitxer passat per paràmetre és el codi del taller)
      *      - Cada recanvi del taller, s'ha de desar com a registre de la taula recanvis.
@@ -197,71 +214,74 @@ public class GestorJDBC implements ProveedorPersistencia {
      *            d'un nou taller.
      *  - Si al fer qualsevol operació es produeix una excepció, llavors heu de llançar l'excepció GestorTallerMecanicException amb codi "GestorJDBC.desar"
      *
-     *Retorn: cap
+     * Retorn: cap
      *
      */
     @Override
     public void desarTaller(String nomFitxer, Taller taller) throws GestorTallerMecanicException {
 
         try {
-            
-            if(conn == null) {   // VERIFICA SI LA CONEXXION ES NULA, EN CASO TAL, LLAMA AL MÉTODO DE ESTABLECERLA
+           
+            if (conn == null) {// VERIFICA SI LA CONEXXION ES NULA, EN CASO TAL, LLAMA AL MÉTODO DE ESTABLECERLA
                 estableixConnexio();
             }
-            
-            codiTallerSt.setString(1, taller.getCif()); // MÉTODO RECIBE EL ATRIBUTO DEL CÓDIGO DE TALLER COMO PARÁMETRO
-            ResultSet regTaller = codiTallerSt.executeQuery(); // RECIBE LA EJECUCION DEL QUERY CON EL CÓDIGO DEL TALLER
-            
-            if(regTaller.next()) { //COMPRUEBA SI EL TALLER CON DICHO CÓDIGO EXISTE O NO, HACIENDO USO DEL MÉTODO ".NEXT"
-                
+
+            codiTallerSt.setString(1, nomFitxer);// MÉTODO RECIBE EL ATRIBUTO DEL CÓDIGO DE TALLER COMO , EN ÉSTE CASO "NOMFITXER"
+            ResultSet regTaller = codiTallerSt.executeQuery();// RECIBE LA EJECUCION DEL QUERY CON EL CÓDIGO DEL TALLER
+
+            if (regTaller.next()) { //COMPRUEBA SI EL TALLER CON DICHO CÓDIGO EXISTE O NO, HACIENDO USO DEL MÉTODO ".NEXT"
+
                 // ES IMPERATIVO INTRODUCIR LOS PARÁMETROS EN EL ORDEN QUE LOS RECIBE EL QUERY Y EL STATETMENT
-                actualitzaTallerSt.setString(1, taller.getNom()); // ACTUALIZA EL NOMBRE DEL TALLER (ATRIBUTO "NOM")
-                actualitzaTallerSt.setString(2, taller.getAdreca());
-                actualitzaTallerSt.setString(3, taller.getCif()); // EL "CIF" ES EL ÚLTIMO PARÁMETRO QUE RECIBE EL QUERY, YA QUE ES EL CONDICIONAL DEL WHERE
                 
-                eliminaRecanviSt.setString(1, taller.getCif()); // ELIMINA EL RECAMBIO CON EL CÓDIGO TALLER
-                eliminaRecanviSt.executeUpdate(); // ACTUALIZA 
+                actualitzaTallerSt.setString(1, taller.getCif());// ACTUALIZA EL CIF DEL TALLER (ATRIBUTO "CIF")
+                actualitzaTallerSt.setString(2, taller.getNom());
+                actualitzaTallerSt.setString(3, taller.getAdreca());
                 
+                actualitzaTallerSt.executeUpdate();// SE DEBE DE IMPLEMENTAR EL UPDATE ANTES DE ELIMINAR
+                
+                eliminaRecanviSt.setString(1, taller.getCif());// ELIMINA EL RECAMBIO CON EL CÓDIGO TALLER
+                eliminaRecanviSt.executeUpdate();// ES IMPRESCINDIBLE LUEGO DE LLAMAR A CADA PARÁMETRO QUE RECIBE EL QUERY, HACER EL LLAMADO AL MÉTODO DE "executeUpdate" PARA QUE REALICE LA ACTUALIZACION Y CONSULTA, EN CASO CONTRARIO NO REALIZA NADA, SIEMPRE COMO ÚLTIMO PASO LUEGO DE LOS PARÁMETROS
+
             } else { // EN CASO DE NO EXISTIR LO INSERTA EN LA TABLA TALLERS
-                
-                insereixTallerSt.setString(1, taller.getCif()); // PRIMER PARÁMETRO SEGÚN EL ORDEN QUE SE LE INDICO EN EL QUERY
+                insereixTallerSt.setString(1, taller.getCif());
                 insereixTallerSt.setString(2, taller.getNom());
                 insereixTallerSt.setString(3, taller.getAdreca());
                 
-                insereixTallerSt.executeUpdate(); // ES IMPRESCINDIBLE LUEGO DE LLAMAR A CADA PARÁMETRO QUE RECIBE EL QUERY, HACER EL LLAMADO AL MÉTODO DE "executeUpdate" PARA QUE REALICE LA ACTUALIZACION Y CONSULTA, EN CASO CONTRARIO NO REALIZA NADA, SIEMPRE COMO ÚLTIMO PASO LUEGO DE LOS PARÁMETROS
+                insereixTallerSt.executeUpdate();
             }
+
             
-            // INSERCION DE LOS RECAMBIOS CON LA PRELACIÓN DEL TALLER
-            
-            for(Component component : taller.getComponents()) {
-                if(component != null && component instanceof Recanvi) { // SE DEBEN DE PREVIAMENTE IMPORTAL EL MODELO DE "RECANVI" Y EL "COMPONENT" PARA PODER RECORRER EL ARRAY Y MODIFICAR EL RECANVI
-                    insereixRecanviSt.setString(1, ((Recanvi) component).getCodi()); //SE DEBE DE CASTEAR EL RECANVI DE COMPONENT ´PARA APUNTAR A LOS ATRIBUTOS
-                    insereixRecanviSt.setString(2, ((Recanvi) component).getNom());
+            // INSERCION DE LOS RECAMBIOS CON LA PRELACIÓN DEL TALLER            
+            for (Component component : taller.getComponents()) {
+                
+                if (component != null && component instanceof Recanvi) {
+                    insereixRecanviSt.setString(1, ((Recanvi) component).getCodi());// SE DEBEN DE PREVIAMENTE IMPORTAL EL MODELO DE "RECANVI" Y EL "COMPONENT" PARA PODER RECORRER EL ARRAY Y MODIFICAR EL RECANVI
+                    
+                    insereixRecanviSt.setString(2, ((Recanvi) component).getNom());//SE DEBE DE CASTEAR EL RECANVI DE COMPONENT ´PARA APUNTAR A LOS ATRIBUTOS
                     
                     insereixRecanviSt.setString(3, ((Recanvi) component).getFabricant());
                     insereixRecanviSt.setDouble(4, ((Recanvi) component).getPreu());
-                    
-                    insereixRecanviSt.setString(5, ((Recanvi) (Taller) component).getCif()); // LA CLAVE FORÁNEA ES EL CIF DEL TALLER
+                    insereixRecanviSt.setString(5, taller.getCif());// LA CLAVE FORÁNEA ES EL CIF DEL TALLER
                     
                     insereixRecanviSt.executeUpdate();
-                         
-                    
                 }
             }
-           
-            tancaConnexio(); // LLAMAMOS AL MÉTODO DE CIERRE DE CONEXION PARA NO MALGASTAR RECURSOS
+
+            tancaConnexio();// LLAMAMOS AL MÉTODO DE CIERRE DE CONEXION PARA NO MALGASTAR RECURSOS
             
-        } catch(SQLException ex) {
+
+        } catch (SQLException ex) {
             throw new GestorTallerMecanicException("GestorJDBC.desar");
         }
     }
 
+    
     /*
-     *TODO
+     * TODO
      * 
-     *Paràmetres: el nom del fitxer del taller
+     * Paràmetres: el nom del fitxer del taller
      *
-     *Acció:
+     * Acció:
      *  - Heu de carregar el taller des de la base de dades (nomFitxer passat per paràmetre és el codi del taller)
      *  - Per fer això, heu de cercar el registre taller de la taula amb CIF = nomFitxer
      *  - A més, heu d'afegir els recanvis al taller a partir de la taula recanvis
@@ -270,47 +290,43 @@ public class GestorJDBC implements ProveedorPersistencia {
      *  - Si el nomFitxer donat no existeix a la taula tallers (és a dir, el CIF = nomFitxer no existeix), llavors
      *    heu de llançar l'excepció GestorTallerMecanicException amb codi "GestorJDBC.noexist"
      *
-     *Retorn: cap
+     * Retorn: cap
      *
      */
     @Override
     public void carregarTaller(String nomFitxer) throws GestorTallerMecanicException {
 
         try {
-            
             // SIEMPRE ES NECESARIO VERIFICAR SI ES NULL O NO PARA ATRAPAR CUALQUIER EXCEPTION
-            if(conn == null) {
-                estableixConnexio(); 
+            if (conn == null) {
+                estableixConnexio();
             }
             
-           // codiTallerSt.setS
-            
-            codiTallerSt.setString(1, taller.getCif()); // VERIFICAMOS EL CODIGO DEL TALLER
+            codiTallerSt.setString(1, nomFitxer);
             ResultSet regTaller = codiTallerSt.executeQuery();
-            
-            if(regTaller.next()) {
-                
-                taller = new Taller(regTaller.getString("codi"), regTaller.getString("nom"), regTaller.getString("adresa"));  // TOMA DE LOS ATRIBUTOS DE TALLER MEDIANTE EL RESULSET
-                // RECANVI SELECCION
-                
-                selRecanvisSt.setString(1, taller.getCif());
-                
-                ResultSet regRecanvi = selRecanvisSt.executeQuery(); // ALMACENAMOS EL RESULTSET DEL RECAMBIO SELECCIONADO EN LA VARIABLE
-                
-                while(regRecanvi.next()) {
-                    taller.addRecanvi(new Recanvi(regRecanvi.getString("codi"), regRecanvi.getString("nom"), regRecanvi.getString("fabricant"), regRecanvi.getDouble("preu"), regRecanvi.getBoolean("assignat")));  // ANEXO DEL RECANVI (CON TODOS SUS ATRIBUTOS A TALLER)
-                    
+
+            // Només hi poden haver 0 o 1 resultats
+            if (regTaller.next()) {
+
+                taller = new Taller(regTaller.getString("cif"), regTaller.getString("nom"), regTaller.getString("adresa"));// TOMA DE LOS ATRIBUTOS DE TALLER MEDIANTE EL RESULSET
+
+                selRecanvisSt.setString(1, taller.getCif()); //selecionamos el recacanvi con la clave foránea de taller
+
+                ResultSet regRecanvis = selRecanvisSt.executeQuery();// ALMACENAMOS EL RESULTSET DEL RECAMBIO SELECCIONADO EN LA VARIABLE
+
+                while (regRecanvis.next()) {
+                    taller.addRecanvi(new Recanvi(regRecanvis.getString("codi"), regRecanvis.getString("nom"), regRecanvis.getString("fabricant"), regRecanvis.getDouble("preu")));// ANEXO DEL RECANVI (CON TODOS SUS ATRIBUTOS A TALLER) A EXCEPCION DE "ASSIGNAT" YA QUE LO SUPLIRÁ LA CLAVE FORÁNEA "TALLER"
                 }
-                
+
             } else {
-                throw new GestorTallerMecanicException("GestorJDBC.noExisteix"); // LANZAMOS LA EXCEPTION EN CASO DE NO EXISTIR
+                throw new GestorTallerMecanicException("GestorJDBC.noExisteix");
             }
             
-            
-        } catch(SQLException ex) {
+            tancaConnexio();
+
+        } catch (SQLException ex) {
             throw new GestorTallerMecanicException("GestorJDBC.carregar");
         }
-        
     }
-
 }
+    
