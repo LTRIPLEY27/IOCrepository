@@ -23,6 +23,12 @@ PASOS A SEGUIR PARA ENFRENTAR UN PROBLEMA EN POO
 
 
 
+
+			*** CLASES, HERENCIA, INTERFICIE Y CLASES ABSTRACTAS ***
+
+
+
+
 			---  ARRAYS (METODOS DE ACCESO Y PARAMETROS DE POSICIONES) ---
 
 
@@ -174,4 +180,21 @@ PASOS A SEGUIR PARA ENFRENTAR UN PROBLEMA EN POO
 	- setVisible(boolean) : indica la visibilidad o no del Jframe.
 
   
-- 
+
+
+				*** APACHE DERBY  &&  JDBC ***
+
+
+	4 pasos fundamnetales:
+
+- Establecer conexión con base de datos.
+
+- Crear un objeto Statement.
+
+- Ejecutar sentencia SQL.
+
+- Leer el resultset.
+
+
+
+
