@@ -6,7 +6,7 @@ package JavaExercises.Hierarchy_And_Super;
 
 /**
  *
- * @author isabe
+ * @author i.c
  */
 public class RefridgeProduct extends Products {
     private int code_supervising;
