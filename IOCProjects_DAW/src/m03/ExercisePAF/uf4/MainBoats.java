@@ -5,6 +5,8 @@
 package m03.ExercisePAF.uf4;
 
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -15,7 +17,7 @@ public class MainBoats {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args)  {
         Scanner ask = new Scanner(System.in);
         
         String name;
@@ -39,6 +41,12 @@ public class MainBoats {
         System.out.println(boat.toString());
         
         System.out.println(boat.matricular());
+        
+        try {
+            Boat.comprovarMatricula(boat);
+        } catch (ExceptionBoat ex) {
+            Logger.getLogger(MainBoats.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
 }

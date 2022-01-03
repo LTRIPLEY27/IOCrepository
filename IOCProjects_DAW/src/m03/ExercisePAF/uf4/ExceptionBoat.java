@@ -17,6 +17,7 @@ public class ExceptionBoat extends Exception {
 
     }
 
+    @Override
     public String getMessage() {
 
         switch (codiExcepcio) {

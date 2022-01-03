@@ -12,6 +12,7 @@ package m03.ExercisePAF.uf4;
  */
 public abstract class Boat implements Matriculate {
     
+    protected String matricula;
     protected String nom;
     protected float eslora;
     protected int cabines;
@@ -47,10 +48,9 @@ public abstract class Boat implements Matriculate {
     }
     
     public String matricular(){
-        int matricula;
         
         System.out.println("introduzca la matrícula del barco");
-        matricula = ask.nextInt();
+        matricula = ask.next();
         
         return "Matricula =" + matricula;
     }
@@ -60,4 +60,31 @@ public abstract class Boat implements Matriculate {
         return "Nom = " + getNom() + ", Eslora = " + getEslora() + ", Cabines = " + getCabines();
     }
     
+    public boolean estaMatriculat(){
+        
+       if (matricula == null){ //No està matriculat
+           return false; 
+       }else{
+           return true;
+       }
+       
+    }
+    
+    public static void comprovarMatricula(Boat boat) throws ExceptionBoat {
+
+        /* TODO
+		Heu de comprovar si el vaixell passat per paràmetre està matriculat o no amb el mètode
+        escaient d'aquesta classe. En tots dos casos heu de llençar una excepció de tipus ExcepcioVaixell 
+        amb el codi pertinent per després capturar l'excepció produïda pel vaixell passat per paràmetre. 
+        Quan captureu l'excepció, s'ha d'imprimir per pantalla el missatge corresponent al codi de l'excepció 
+        definit en la classe ExcepcioVaixell.
+        */
+        
+       if(boat.estaMatriculat() == false) {
+           throw new ExceptionBoat("0");
+       } else {
+           throw new ExceptionBoat("1");
+       }
+        
+    } 
 }
