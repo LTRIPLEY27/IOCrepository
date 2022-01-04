@@ -8,25 +8,15 @@ package JavaExercises.Hierarchy_And_Super.Polimorfismo;
  *
  * @author isabe
  */
-public class Empleado {
+public class Empleado extends Persona {
     
-    private String name;
     private double sueldo;
-    private int nacimiento;
     
     public Empleado(String name, double sueldo, int fecha) {
  
-        this.name = name;
+        super(name, fecha);
         this.sueldo = sueldo;
-        this.nacimiento = fecha;
-    }
-    
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-    public String getName() {
-        return this.name;
+        
     }
     
     public void setSueldo(int sueldo) {
@@ -37,13 +27,6 @@ public class Empleado {
         return this.sueldo;
     }
     
-    public void setNacimiento(int fecha) {
-        this.nacimiento = fecha;
-    }
-    
-    public int getNacimiento() {
-        return this.nacimiento;
-    }
     
     public double subeSueldo(){
         return this.sueldo;
@@ -58,7 +41,7 @@ public class Empleado {
     
     @Override
     public String toString() {
-        return "Los datos del empleado son: \n Nombre: " + this.name + "\n Sueldo:  " + this.sueldo + "\n Nacimiento : " + this.nacimiento + "\n El sueldo con aumento es igual a : " + subeSueldo();
+        return "Los datos  son: \n Nombre: " + super.getName() + "\n Nacimiento : " + super.getNacimiento() + "\n Sueldo:  " + this.sueldo + "\n El sueldo con aumento es igual a : " + subeSueldo();
 
     }
    

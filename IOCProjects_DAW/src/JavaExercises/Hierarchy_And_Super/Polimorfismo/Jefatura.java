@@ -9,14 +9,12 @@ package JavaExercises.Hierarchy_And_Super.Polimorfismo;
  * @author isabe
  */
 public class Jefatura extends Empleado {
-    
-    private String name;
+
     private double sueldo;
-    private int nacimiento;
     private double incentivo;
     
     public Jefatura(String name, double sueldo, int fecha) {
-        super(name, sueldo, fecha);
+        super(name,sueldo, fecha);
     }
     
     public void setIncentive(double ince){
@@ -30,5 +28,9 @@ public class Jefatura extends Empleado {
         
     }
     
+    @Override
+    public String toString() {
+        return super.toString() + this.getSueldoBoss();
+    }
     
 }
