@@ -27,23 +27,20 @@ public class MainEmpleado {
         
         Estudiante estu = new Estudiante("Elena", 1989, 90210, "Filosofia");
         
-        
-        
-        Empleado [] employees = new Empleado[2]; 
+        Persona [] employees = new Persona[2]; 
        
         for (int i = 0; i < employees.length; i++) {
             System.out.println("Nombre ?");
             name = ask.next();
             
-            System.out.println("Sueldo ?");
-            sueldo = ask.nextDouble();
+            //System.out.println("Sueldo ?");
+            //sueldo = ask.nextDouble();
             
             System.out.println("Año nacimiento ?");
             fecha = ask.nextInt();
             
-            employees[i] = new Empleado(name, sueldo, fecha);
+            employees[i] = new Empleado(name, 8700, fecha);
             
-            employees[i].setSubeSueldo();
         }
         
        // emple1.setSubeSueldo();
@@ -57,7 +54,9 @@ public class MainEmpleado {
         //boss.setIncentive(5600);
         
         
-        for(Empleado employee : employees) {
+        
+        for(Persona employee : employees) {
+        
             System.out.println(employee.toString());
         }
         
