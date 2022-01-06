@@ -8,7 +8,7 @@ package JavaExercises.Hierarchy_And_Super.Polimorfismo;
  *
  * @author isabe
  */
-public class Jefatura extends Empleado {
+public class Jefatura extends Empleado implements Jefes {
 
     private double sueldo;
     private double incentivo;
@@ -31,6 +31,12 @@ public class Jefatura extends Empleado {
     @Override
     public String toString() {
         return super.toString() + this.getSueldoBoss();
+    }
+
+    @Override
+    public String Toma_decisiones(String decision) {
+       
+        return "\n la DECISION HA SIDO :" + decision;
     }
     
 }
