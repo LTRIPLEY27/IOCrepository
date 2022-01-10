@@ -33,10 +33,19 @@ public class Jefatura extends Empleado implements Jefes {
         return super.toString() + this.getSueldoBoss();
     }
 
-    @Override
+      @Override
     public String Toma_decisiones(String decision) {
        
         return "\n la DECISION HA SIDO :" + decision;
+    }
+
+    @Override
+    public double Establece_bonus(double bonus) {
+        
+        double prima = 2000;
+        
+               // USO DE LA VARIABLE STATIC "bonus_base" 
+        return Trabajadores.bonus_base + bonus + prima;
     }
     
 }

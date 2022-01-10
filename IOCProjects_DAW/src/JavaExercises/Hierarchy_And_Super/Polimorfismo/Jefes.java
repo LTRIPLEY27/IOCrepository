@@ -8,7 +8,7 @@ package JavaExercises.Hierarchy_And_Super.Polimorfismo;
  *
  * @author isabe
  */
-public interface Jefes {
+public interface Jefes  extends Trabajadores{ // HERENCIA DE INTERFACES (jefes hereda de trabajadores)
     
     public abstract String Toma_decisiones(String decision);// LOS MÉTODOS SE DEBEN DE INDICAR CON LAS RESERVAS PUBLIC ABSTRACT U OBVIAR
     

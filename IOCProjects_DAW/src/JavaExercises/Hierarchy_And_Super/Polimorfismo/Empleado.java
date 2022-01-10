@@ -8,7 +8,7 @@ package JavaExercises.Hierarchy_And_Super.Polimorfismo;
  *
  * @author isabe
  */                                                 // LA INTERFAZ "COMPARABLE" REFIERE A LA INTERFAZ PREDEFINIDA EN LA API DE JAVA
-public class Empleado extends Persona implements Comparable {
+public class Empleado extends Persona implements Comparable, Trabajadores {
     
     private double sueldo;
     
@@ -62,5 +62,21 @@ public class Empleado extends Persona implements Comparable {
         return "Los datos  son: \n Nombre: " + super.getName() + "\n Nacimiento : " + super.getNacimiento() + "\n Sueldo:  " + this.sueldo + "\n El sueldo con aumento es igual a : " + subeSueldo();
 
     }
+
+
+    /*@Override
+    public int Establece_bonus(double bonus) {
+        
+        
+    }*/
+
+    @Override
+    public double Establece_bonus(double bonus) {
+       
+        
+        return Trabajadores.bonus_base + bonus;
+    }
+
+ 
    
 }

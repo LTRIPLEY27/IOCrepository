@@ -10,5 +10,9 @@ package JavaExercises.Hierarchy_And_Super.Polimorfismo;
  */
 public interface Trabajadores {
     
-    public int Establece_bonus();
+    public double Establece_bonus(double bonus);
+    
+    public static final double bonus_base = 1500; // CONSTANTE SINTÁXIS, SIEMPRE ADQUIERE EL "STATIC" PUES ES PERTENECIENTE A LA INTERFACE
+    
+    
 }

@@ -68,6 +68,12 @@ public class MainEmpleado {
         Jefatura boss = new Jefatura("Esther", 1987, 2700);
         
         Comparable emple1 = new Empleado("Ludwig", 1817, 89700); // INSTANCIA DE LA INTERFAZ A TRAVÉS DEL PRINCIPIO DE SUSTITUCION
+       
+        boss.Establece_bonus(55000);
+        
+        System.out.println("El jefe recibe : " + boss.Establece_bonus(500) + boss.getName());
+        
+        System.out.println(emple.Establece_bonus(200) + "Nombre " + emple.getName());
         
         if(emple instanceof Persona) { // COMPARA Y VERIFICA SI LA VARIABLE OBJETO ES DE UNA CLASE
             
