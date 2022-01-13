@@ -45,6 +45,12 @@ public Vaixell(String matricula, String nom, float eslora, int cabines) {
     public void setCabines(int cabines) {
     this.cabines = cabines;
     }
+    public String getMatricula() {
+    return matricula;
+    }
+    public void setMatricula(String matricula) {
+    this.matricula= matricula;
+    }
     public String toString() {
     return "Nom=" + nom + "\nEslora=" + eslora + "\nCabines=" + cabines;
     }
