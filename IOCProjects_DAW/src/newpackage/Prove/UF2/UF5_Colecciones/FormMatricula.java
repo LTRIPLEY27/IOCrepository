@@ -73,8 +73,8 @@ public void afegirListenerBotons() {
 Quan premem el botó matricular del formulari, hem d'assignar a l'atribut matricula del
 nouVaixell el valor introduït per l'usuari mitjançant el formulari.
 */
-    if(esdeveniment.getSource() == matricular) {// VERIFICA SI OCURRE EL EVENTO
-        tMatricula.setText(String.valueOf(nouVaixell.getMatricula()));// TOMA EL VALOR DE LA CAJA TEXTO Y ADJUNTA EL NUEVO VALOR AL OBJETO
+    if(esdeveniment.getSource() == matricular) {                                            // VERIFICA SI OCURRE EL EVENTO
+        tMatricula.setText(String.valueOf(nouVaixell.getMatricula()));                      // TOMA EL VALOR DE LA CAJA TEXTO Y ADJUNTA EL NUEVO VALOR AL OBJETO
         
     }
 }
