@@ -52,11 +52,19 @@ public Vaixell(String matricula, String nom, float eslora, int cabines) {
     this.matricula= matricula;
     }
     public String toString() {
-    return "Nom=" + nom + "\nEslora=" + eslora + "\nCabines=" + cabines;
+         return "Nom=" + nom + "\nEslora=" + eslora + "\nCabines=" + cabines;
     }
     
+    public boolean estaMatriculat(){
+        if (matricula == null){ //No està matriculat
+            return false;
+        }else{
+            return true;
+        }
+}
     
-    public void estaMatriculat(Vaixell vaixell) throws ExcepcioVaixell{ // CAPTA LA EXCEPCION DISPARANDAO UN TRHOW CON EL CÓDIGO DE LA MISMA
+    
+    public static void comprovarMatricula(Vaixell vaixell) throws ExcepcioVaixell{ // CAPTA LA EXCEPCION DISPARANDAO UN TRHOW CON EL CÓDIGO DE LA MISMA
         
         try{
              if (vaixell.matricula == null){ //No està matriculat
@@ -68,4 +76,5 @@ public Vaixell(String matricula, String nom, float eslora, int cabines) {
              System.out.println("\n" + e.getMessage());
         }
        
-    }}
+    }
+}

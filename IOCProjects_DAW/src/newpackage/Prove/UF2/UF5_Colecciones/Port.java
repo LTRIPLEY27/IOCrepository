@@ -13,7 +13,9 @@ import java.util.List;
  *
  * @author isabe
  */
-public class Port {
+
+// EL EXTENDS ES CIRCUNSTANCIAL PARA PRUEBAS ELIMINAR 
+public class Port extends Vaixell{
     private String nom;
 /*TODO heu de crear un atribut anomenat port que sigui un List que ipmlementareu
     mitjançant un ArrayList per guardar vaixells.

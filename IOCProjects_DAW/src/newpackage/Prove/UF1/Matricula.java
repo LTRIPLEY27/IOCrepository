@@ -12,10 +12,6 @@ import java.util.Scanner;
  */
 public interface Matricula {
 
-    /**
-     *
-     * @return
-     */
     public String matricular();
-    final static Scanner ASK = new Scanner(System.in);
+        final static Scanner ASK = new Scanner(System.in);
 }

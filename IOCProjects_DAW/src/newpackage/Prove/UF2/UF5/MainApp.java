@@ -18,10 +18,11 @@ public class MainApp {
      */
     public static void main(String[] args) {
         
-        Vaixell barco = new Vaixell(null, "LOVERMAKER", 8, 9);
         try {
-            barco.estaMatriculat(barco);
-            //System.out.println(barco.estaMatriculat(barco));
+            Vaixell barco = new Vaixell(null, "LOVERMAKER", 8, 9);
+            
+            barco.estaMatriculat();
+            Vaixell.comprovarMatricula(barco);
         } catch (ExcepcioVaixell ex) {
             Logger.getLogger(MainApp.class.getName()).log(Level.SEVERE, null, ex);
         }

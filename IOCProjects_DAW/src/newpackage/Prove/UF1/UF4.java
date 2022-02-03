@@ -61,7 +61,7 @@ de la que hereta la classe Veler.
 Podeu treballar al vostre IDE, i després copiar en l'espai de resposta el codi final. Si us cal, per
 solucionar la pregunta, podeu copiar el codi de l'enunciat en el vostre IDE, estalviareu temps.*/
 
-public class Vaixell implements Matricula {
+public abstract class Vaixell implements Matricula { 
     //nom, eslora, cabines
     private String nom;
     private float eslora;
@@ -99,14 +99,14 @@ public class Vaixell implements Matricula {
     }
 
         @Override
-        public String matricular() {
-            String matricula;
+    public String matricular() {
+        String matricula;
             
-            System.out.println("Ingrese matricula ");
-            matricula = ASK.next();
+        System.out.println("Ingrese matricula = ");
+        matricula = ASK.next();
             
-            return matricula;
-        }
+        return matricula;
+    }
     }
   }
 
