@@ -2,8 +2,8 @@ package packageJava.RecapitulacionEjercicio5;
 
 public class Persona {
     
-    String name;
-    int edad;
+    protected String name;
+    protected int edad;
     
     //POR DEFECTO
     public Persona() {

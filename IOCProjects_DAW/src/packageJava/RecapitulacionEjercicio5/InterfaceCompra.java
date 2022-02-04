@@ -4,5 +4,5 @@ import java.util.Scanner;
 
 public interface InterfaceCompra {
     static Scanner ASK = new Scanner(System.in);
-    double darCambio();
+    double darCambio(double cantidad);
 }
